@@ -12,13 +12,3 @@ public interface IChessPiece
 
     void Move();
 }
-
-public class Pawn : IChessPiece
-{
-    public Color Color { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
-    public void Move()
-    {
-        throw new NotImplementedException();
-    }
-}

@@ -1,8 +1,6 @@
-﻿using System;
+﻿namespace FogOfWarChess.MainCore.MainEngine
 
-namespace FogOfWarChess.MainCore.MainEngine
 {
-
     public enum Color
     {
         None, 
@@ -22,11 +20,4 @@ namespace FogOfWarChess.MainCore.MainEngine
         }
     }
 
-
-    public abstract class ChessPiece : IChessPiece
-    {
-        public abstract Color Color { get; set; }
-
-        public abstract void Move();
-    }
 }
