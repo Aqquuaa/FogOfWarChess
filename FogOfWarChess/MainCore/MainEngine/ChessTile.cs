@@ -9,22 +9,22 @@ public class ChessTile
 {
     private int row;
     private int column;
-    private IChessPiece chessPiece;
+    private Piece chessPiece;
 
     private Texture2D darkTileTexture2D;
     private Texture2D lightTileTexture2D;
     //private Texture2D pawnBlack2D;
-    public ChessTile(int row, int column, IChessPiece chessPiece = null)
+    public ChessTile(int row, int column, Piece chessPiece = null)
     {
         this.row = row;
         this.column = column;
     }
-    public void SetPiece(IChessPiece _chessPiece)
+    public void SetPiece(Piece _chessPiece)
     {
         chessPiece = _chessPiece;
     }
 
-    public IChessPiece GetPiece()
+    public Piece GetPiece()
     {
         return chessPiece;
     }
