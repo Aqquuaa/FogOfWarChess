@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework.Content;
+
 namespace FogOfWarChess.MainCore.MainEngine
 {
     internal class Position
@@ -19,6 +21,11 @@ namespace FogOfWarChess.MainCore.MainEngine
                 }
 
                 return Color.Black;
+        }
+
+        public static Position operator +(Position pos, Direction dir)
+        {
+            return new Position(pos.Row + dir.RowDelta, pos.Column + dir.ColumnDelta);
         }
 
     }
