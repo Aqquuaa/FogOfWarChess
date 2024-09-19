@@ -1,4 +1,8 @@
-﻿namespace FogOfWarChess.MainCore.MainEngine;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+
+namespace FogOfWarChess.MainCore.MainEngine;
 
 public class ChessBoard
 {
@@ -8,6 +12,8 @@ public class ChessBoard
     public ChessBoard(int boardSize = 8)
     {
         this.boardSize = boardSize;
+
+        tiles = new ChessTile[boardSize, boardSize];
 
         for (var row = 0; row < boardSize; row++)
         {
@@ -61,5 +67,29 @@ public class ChessBoard
     private bool IsInBounds(int row, int column)
     {
         return row >= 0 && row < boardSize && column >= 0 && column < boardSize;
+    }
+
+    public void LoadTexture(ContentManager content)
+    {
+        // Load the textures for each tile
+        for (var row = 0; row < boardSize; row++)
+        {
+            for (var column = 0; column < boardSize; column++)
+            {
+                tiles[row, column].LoadContent(content);
+            }
+        }
+    }
+
+    public void Draw(SpriteBatch spriteBatch)
+    {
+        for (var row = 0; row < boardSize; row++)
+        {
+            for (var column = 0; column < boardSize; column++)
+            {
+                Vector2 position = new Vector2(column * 40, row * 40); 
+                tiles[row, column].Draw(spriteBatch, position);
+            }
+        }
     }
 }

@@ -1,6 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using FogOfWarChess.MainCore.MainEngine;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Color = Microsoft.Xna.Framework.Color;
 
 namespace FogOfWarChess;
 
@@ -8,7 +10,7 @@ public class Game1 : Game
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
-
+    private ChessBoard chessBoard;
     public Game1()
     {
         _graphics = new GraphicsDeviceManager(this);
@@ -18,7 +20,7 @@ public class Game1 : Game
 
     protected override void Initialize()
     {
-        // TODO: Add your initialization logic here
+        chessBoard = new ChessBoard();
 
         base.Initialize();
     }
@@ -26,8 +28,7 @@ public class Game1 : Game
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-        // TODO: use this.Content to load your game content here
+        chessBoard.LoadTexture(Content);
     }
 
     protected override void Update(GameTime gameTime)
@@ -43,7 +44,9 @@ public class Game1 : Game
     protected override void Draw(GameTime gameTime)
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);
-
+        _spriteBatch.Begin();
+        chessBoard.Draw(_spriteBatch);
+        _spriteBatch.End();
         // TODO: Add your drawing code here
 
         base.Draw(gameTime);
