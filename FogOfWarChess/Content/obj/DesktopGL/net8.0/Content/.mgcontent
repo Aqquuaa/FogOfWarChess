@@ -4,8 +4,8 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
-    <File>C:/Users/Nazar/source/repos/Aqquuaa/FogOfWarChess/FogOfWarChess/Content/CoreTextures/DarkTile.png</File>
-    <File>C:/Users/Nazar/source/repos/Aqquuaa/FogOfWarChess/FogOfWarChess/Content/CoreTextures/LightTile.png</File>
+    <File>C:/Users/Nazar/Source/Repos/FogOfWarChess/FogOfWarChess/Content/CoreTextures/DarkTile.png</File>
+    <File>C:/Users/Nazar/Source/Repos/FogOfWarChess/FogOfWarChess/Content/CoreTextures/LightTile.png</File>
   </SourceFiles>
   <DestFiles>
     <File xsi:nil="true" />

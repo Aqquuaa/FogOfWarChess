@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>C:/Users/Nazar/source/repos/Aqquuaa/FogOfWarChess/FogOfWarChess/Content/CoreTextures/LightTile.png</SourceFile>
-  <SourceTime>2024-09-13T23:22:50.3169543+03:00</SourceTime>
-  <DestFile>C:/Users/Nazar/source/repos/Aqquuaa/FogOfWarChess/FogOfWarChess/Content/bin/DesktopGL/Content/CoreTextures/LightTile.xnb</DestFile>
-  <DestTime>2024-09-13T23:31:10.7181686+03:00</DestTime>
+  <SourceFile>C:/Users/Nazar/Source/Repos/FogOfWarChess/FogOfWarChess/Content/CoreTextures/LightTile.png</SourceFile>
+  <SourceTime>2024-09-19T15:15:27.4547135+03:00</SourceTime>
+  <DestFile>C:/Users/Nazar/Source/Repos/FogOfWarChess/FogOfWarChess/Content/bin/DesktopGL/Content/CoreTextures/LightTile.xnb</DestFile>
+  <DestTime>2024-09-19T15:42:01.6147137+03:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2024-08-16T20:05:56+03:00</ImporterTime>
   <Processor>TextureProcessor</Processor>
