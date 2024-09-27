@@ -21,8 +21,22 @@ public class Game1 : Game
     protected override void Initialize()
     {
         chessBoard = new ChessBoard();
+        WindowSize(chessBoard.boardSize);
 
         base.Initialize();
+    }
+
+    protected void WindowSize(int sizeOfBoard)
+    {
+        /*_graphics.PreferredBackBufferWidth =  sizeOfBoard * 40;
+        _graphics.PreferredBackBufferHeight = sizeOfBoard * 40;
+        _graphics.ApplyChanges();*/
+
+        //Or we can set it fullscreen. In this case, return boardsize protection back to private. Also if will use it, we will have standard blue background
+        _graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+        _graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+        _graphics.ApplyChanges();
+        
     }
 
     protected override void LoadContent()
