@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace FogOfWarChess.MainCore.MainEngine;
 
@@ -13,7 +14,6 @@ public class ChessTile
 
     private Texture2D darkTileTexture2D;
     private Texture2D lightTileTexture2D;
-    //private Texture2D pawnBlack2D;
     public ChessTile(int row, int column, Piece chessPiece = null)
     {
         this.row = row;
@@ -22,6 +22,7 @@ public class ChessTile
     public void SetPiece(Piece _chessPiece)
     {
         chessPiece = _chessPiece;
+
     }
 
     public Piece GetPiece()
@@ -43,7 +44,7 @@ public class ChessTile
 
         if (chessPiece != null)
         {
-            //chessPiece.Draw(spriteBatch, position);
+            chessPiece.Draw(spriteBatch, position);
         }
     }
 }

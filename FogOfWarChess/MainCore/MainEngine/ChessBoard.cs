@@ -7,7 +7,9 @@ namespace FogOfWarChess.MainCore.MainEngine;
 
 public class ChessBoard
 {
-    private readonly Piece[,] pieces = new Piece[8,8]; // creating rectangular array to store pieces
+    //private readonly Piece[,] pieces = new Piece[8,8]; // creating rectangular array to store pieces
+    //I don't think it's necessary to have another array to store pieces when 
+    //we have field in each ChessTile to store chess piece
     private int boardSize;
     private ChessTile[,] tiles;
 
@@ -24,10 +26,15 @@ public class ChessBoard
                 tiles[row, column] = new ChessTile(row, column);
             }
         }
+
+        SetChessPiecesPositions();
+        
     }
     /// <summary>
     /// Method to set all chess pieces on your size board
     /// </summary>
+
+    /*
     public Piece this[int row, int col]
     {
         get { return pieces[row, col]; }
@@ -38,32 +45,33 @@ public class ChessBoard
         get { return this[pos.Row, pos.Column]; }
         set { this[pos.Row, pos.Column] = value;}
     }
+    */
 
     public void SetChessPiecesPositions()
     {
-        this[0, 0] = new Rook(Color.Black);
-        this[0, 1] = new Knight(Color.Black);
-        this[0, 2] = new Bishop(Color.Black);
-        this[0, 3] = new Queen(Color.Black);  
-        this[0, 4] = new King(Color.Black);
-        this[0, 5] = new Bishop(Color.Black);  
-        this[0, 6] = new Rook(Color.Black);
-        this[0, 7] = new Knight(Color.Black);
+        tiles[0, 0].SetPiece(new Rook(Color.Black));
+        tiles[0, 1].SetPiece(new Knight(Color.Black));
+        tiles[0, 2].SetPiece(new Bishop(Color.Black));
+        tiles[0, 3].SetPiece(new Queen(Color.Black));
+        tiles[0, 4].SetPiece(new King(Color.Black));
+        tiles[0, 5].SetPiece(new Bishop(Color.Black));
+        tiles[0, 6].SetPiece(new Knight(Color.Black));
+        tiles[0, 7].SetPiece(new Rook(Color.Black));
 
-        this[7, 0] = new Rook(Color.White);
-        this[7, 1] = new Knight(Color.White);
-        this[7, 2] = new Bishop(Color.White);
-        this[7, 3] = new Queen(Color.White);  
-        this[7, 4] = new King(Color.White);
-        this[7, 5] = new Bishop(Color.White);  
-        this[7, 6] = new Rook(Color.White);
-        this[7, 7] = new Knight(Color.White);
+        tiles[7, 0].SetPiece(new Rook(Color.White));
+        tiles[7, 1].SetPiece(new Knight(Color.White));
+        tiles[7, 2].SetPiece(new Bishop(Color.White));
+        tiles[7, 3].SetPiece(new Queen(Color.White));
+        tiles[7, 4].SetPiece(new King(Color.White));
+        tiles[7, 5].SetPiece(new Bishop(Color.White));
+        tiles[7, 6].SetPiece(new Knight(Color.White));
+        tiles[7, 7].SetPiece(new Rook(Color.White));
 
-        for (int i = 0; i <= 7; i++)
+        for (int i = 0; i < 8; i++)
         {
-            this[1, i] = new Pawn(Color.Black);
-            this[6, i] = new Pawn(Color.White);
-        } 
+            tiles[1, i].SetPiece(new Pawn(Color.Black));
+            tiles[6, i].SetPiece(new Pawn(Color.White));
+        }
     }
 
     public static ChessBoard SetChessPiecesToTheirPositions()
@@ -117,6 +125,11 @@ public class ChessBoard
             for (var column = 0; column < boardSize; column++)
             {
                 tiles[row, column].LoadContent(content);
+
+                if (tiles[row, column].GetPiece() != null)
+                {
+                    tiles[row, column].GetPiece().LoadTexture(content);
+                }
             }
         }
     }

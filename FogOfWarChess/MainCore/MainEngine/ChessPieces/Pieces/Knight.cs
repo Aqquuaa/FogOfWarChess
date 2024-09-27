@@ -8,6 +8,7 @@ public class Knight : Piece
     public Knight(Color color)
     {
         Color = color;
+        PieceName = "Knight";
     }
     public override Piece Copy()
     {

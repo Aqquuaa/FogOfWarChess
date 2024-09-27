@@ -4,10 +4,34 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
+    <File>C:/Users/Nazar/Source/Repos/FogOfWarChess/FogOfWarChess/Content/CoreTextures/BishopBlack.png</File>
+    <File>C:/Users/Nazar/Source/Repos/FogOfWarChess/FogOfWarChess/Content/CoreTextures/BishopWhite.png</File>
     <File>C:/Users/Nazar/Source/Repos/FogOfWarChess/FogOfWarChess/Content/CoreTextures/DarkTile.png</File>
+    <File>C:/Users/Nazar/Source/Repos/FogOfWarChess/FogOfWarChess/Content/CoreTextures/KingBlack.png</File>
+    <File>C:/Users/Nazar/Source/Repos/FogOfWarChess/FogOfWarChess/Content/CoreTextures/KingWhite.png</File>
+    <File>C:/Users/Nazar/Source/Repos/FogOfWarChess/FogOfWarChess/Content/CoreTextures/KnightBlack.png</File>
+    <File>C:/Users/Nazar/Source/Repos/FogOfWarChess/FogOfWarChess/Content/CoreTextures/KnightWhite.png</File>
     <File>C:/Users/Nazar/Source/Repos/FogOfWarChess/FogOfWarChess/Content/CoreTextures/LightTile.png</File>
+    <File>C:/Users/Nazar/Source/Repos/FogOfWarChess/FogOfWarChess/Content/CoreTextures/PawnBlack.png</File>
+    <File>C:/Users/Nazar/Source/Repos/FogOfWarChess/FogOfWarChess/Content/CoreTextures/PawnWhite.png</File>
+    <File>C:/Users/Nazar/Source/Repos/FogOfWarChess/FogOfWarChess/Content/CoreTextures/QueenBlack.png</File>
+    <File>C:/Users/Nazar/Source/Repos/FogOfWarChess/FogOfWarChess/Content/CoreTextures/QueenWhite.png</File>
+    <File>C:/Users/Nazar/Source/Repos/FogOfWarChess/FogOfWarChess/Content/CoreTextures/RookBlack.png</File>
+    <File>C:/Users/Nazar/Source/Repos/FogOfWarChess/FogOfWarChess/Content/CoreTextures/RookWhite.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
   </DestFiles>

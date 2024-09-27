@@ -8,6 +8,7 @@ public class Pawn : Piece
     public Pawn(Color color)
     {
         Color = color;
+        PieceName = "Pawn";
     }
     public override Piece Copy()
     {

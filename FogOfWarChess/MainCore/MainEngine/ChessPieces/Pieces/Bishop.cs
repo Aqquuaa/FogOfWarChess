@@ -8,6 +8,7 @@ public class Bishop : Piece
     public Bishop(Color color)
     {
         Color = color;
+        PieceName = "Bishop";
     }
     public override Piece Copy()
     {
