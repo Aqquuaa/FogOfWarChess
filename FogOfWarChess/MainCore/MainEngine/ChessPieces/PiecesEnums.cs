@@ -11,4 +11,11 @@ namespace FogOfWarChess.MainCore.MainEngine
         King,
 
     }
+
+    public enum MoveType
+    {
+        Normal,
+        DoublePawn,
+        PawnPromotion
+    }
 }
