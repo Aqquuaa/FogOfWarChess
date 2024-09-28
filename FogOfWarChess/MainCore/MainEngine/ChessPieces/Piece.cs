@@ -1,3 +1,7 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.AccessControl;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -12,6 +16,34 @@ namespace FogOfWarChess.MainCore.MainEngine
         public abstract Color Color { get; }
         public bool HasMoved { get; set; } = false;
         public abstract Piece Copy();
+        public abstract IEnumerable<Move> GetMoves(Position from, ChessBoard board);
+
+        //This method finds all possibles moves for rock, bishop and queen. They share similar patern: they can move as many tiles as possible. 
+        protected IEnumerable<Position> MovePositionInDir(Position from, ChessBoard board, Direction dir)
+        {
+            
+            for (Position pos = from + dir; board.IsInside(pos); pos += dir)
+            {
+                if(board.IsEmpty(pos))
+                {
+                    yield return pos;
+                    continue;
+                }
+
+                Piece piece = board[pos];
+                if (piece.Color != Color)
+                {
+                    yield return pos;
+                }
+                
+                yield break;
+            }
+        }
+
+        protected IEnumerable<Position> MovePositionInDirs(Position from, ChessBoard board, Direction[] dirs)
+        {
+            return dirs.SelectMany(dir => MovePositionInDir(from,board,dir));
+        }
 
         public void LoadTexture(ContentManager content)
         {

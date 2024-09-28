@@ -7,7 +7,7 @@ namespace FogOfWarChess.MainCore.MainEngine;
 
 public class ChessBoard
 {
-    //private readonly Piece[,] pieces = new Piece[8,8]; // creating rectangular array to store pieces
+    private readonly Piece[,] pieces = new Piece[8,8]; // creating rectangular array to store pieces
     //I don't think it's necessary to have another array to store pieces when 
     //we have field in each ChessTile to store chess piece
     public int boardSize;//I've changed protection, so we could change dynamicaly size of a window. alternatively we can open it in standard 1920*1080 
@@ -34,7 +34,6 @@ public class ChessBoard
     /// Method to set all chess pieces on your size board
     /// </summary>
 
-    /*
     public Piece this[int row, int col]
     {
         get { return pieces[row, col]; }
@@ -45,7 +44,6 @@ public class ChessBoard
         get { return this[pos.Row, pos.Column]; }
         set { this[pos.Row, pos.Column] = value;}
     }
-    */
 
     public void SetChessPiecesPositions()
     {
@@ -112,9 +110,21 @@ public class ChessBoard
         finishTile.SetPiece(chessPiece);
         startTile.SetPiece(null);
     }
+
     private bool IsInBounds(int row, int column)
     {
         return row >= 0 && row < boardSize && column >= 0 && column < boardSize;
+    }
+
+    // I added this 2 methods so i wouldn't need to change almost all file, but basically it does the same as 2 methods above
+    public bool IsInside(Position pos)
+    {
+        return pos.Row >= 0 && pos.Row < boardSize && pos.Column >= 0 && pos.Column < boardSize;
+    }
+
+    public bool IsEmpty(Position pos)
+    {
+        return this[pos] == null;
     }
 
     public void LoadTexture(ContentManager content)
