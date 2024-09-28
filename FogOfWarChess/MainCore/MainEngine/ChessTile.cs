@@ -22,7 +22,6 @@ public class ChessTile
     public void SetPiece(Piece _chessPiece)
     {
         chessPiece = _chessPiece;
-
     }
 
     public Piece GetPiece()
