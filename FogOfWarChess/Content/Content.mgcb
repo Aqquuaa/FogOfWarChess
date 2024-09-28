@@ -181,3 +181,9 @@
 /processorParam:TextureFormat=Color
 /build:CoreTextures/RookWhite.png
 
+#begin Sounds/Music/BackgroundMusic.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sounds/Music/BackgroundMusic.mp3
+
