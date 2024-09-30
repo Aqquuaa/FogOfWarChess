@@ -13,6 +13,10 @@ public class Game1 : Game
     private SpriteBatch _spriteBatch;
     private ChessBoard chessBoard;
     private Song song;
+    Vector2 playerPoz;
+
+    Camera2D cam_white_player = new Camera2D(),
+             cam_black_player = new Camera2D();
 
     public Game1()
     {
@@ -67,6 +71,10 @@ public class Game1 : Game
 
         // TODO: Add your update logic here
 
+        if (Keyboard.GetState().IsKeyDown(Keys.W))
+            cam_white_player.Rotation = 0.5f;
+        if (Keyboard.GetState().IsKeyDown(Keys.B))
+            cam_black_player.Rotation = 0f;
         base.Update(gameTime);
     }
 
@@ -78,6 +86,31 @@ public class Game1 : Game
         _spriteBatch.End();
         // TODO: Add your drawing code here
 
+        //CAMERA
+        //WHITE PLAYER
+        /*_spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null,
+        cam_white_player.get_transformation(GraphicsDevice));
+        //_spriteBatch.Draw(texture, new Vector2(180, 130), Color.Yellow);
+        _spriteBatch.End();
+        //BLACK PLAYER
+        _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null,
+        cam_black_player.get_transformation(GraphicsDevice ));
+        //_spriteBatch.Draw(chessBoard.LoadContent(Content), new Vector2(180, 130), Color.Yellow);
+        _spriteBatch.End();*/
+        //CAMERA
         base.Draw(gameTime);
+    }
+
+    protected void CameraIni()
+    {
+        playerPoz = new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 2);
+
+        cam_white_player.Pos = playerPoz;
+        cam_white_player.Zoom = 1;
+        cam_white_player.Rotation = 0;
+
+        cam_black_player.Pos = cam_white_player.Pos;
+        cam_black_player.Zoom = 1;
+        cam_black_player.Rotation = 0.5f;
     }
 }
