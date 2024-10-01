@@ -1,54 +1,53 @@
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 namespace FogOfWarChess.MainCore.MainEngine;
 
-public class Camera2D
+class Camera 
 {
-    protected float _zoom;
-    public Matrix _transform;
-    public Vector2 _pos;
-    protected float _rotation;
+    private Matrix transform;
+    public Matrix Transform {get { return transform; }}
 
-    public Camera2D()
+    private Vector2 centre;
+    private Viewport viewport;
+    private float zoom = 1;
+    private float rotation = 0;
+
+    public float X
     {
-        _zoom = 1.0f;
-        _rotation = 0.0f;
-        _pos = Vector2.Zero;
+        get { return centre.X; }
+        set { centre.X = value; }
+    }
+    
+    public float Y
+    {
+        get { return centre.Y; }
+        set { centre.Y = value; }
     }
 
-    //Functions to manipulate camera's variables
     public float Zoom
     {
-        get { return _zoom; }
-        set { _zoom = value; if (_zoom < 0.1f) _zoom = 0.1f; } // Negative zoom will flip image
+        get { return zoom; } 
+        set { zoom = value; if (zoom < 0.1f) zoom = 0.1f; }
     }
 
-    public float Rotation
+    public float Rotation 
     {
-        get {return _rotation; }
-        set { _rotation = value; }
+        get { return rotation; }
+        set { rotation = value; }
     }
 
-    public void Move(Vector2 amount)
+    public Camera(Viewport newViewport)
     {
-        _pos += amount;
+        viewport = newViewport;
     }
 
-    public Vector2 Pos
+    public void Update(Vector2 position)
     {
-        get{ return  _pos; }
-        set{ _pos = value; }
-    } 
-    // End of functions to manipulate variables
-
-    //Calculates all the transformations
-    public Matrix get_transformation(GraphicsDevice graphicsDevice)
-{
-	_transform =       // Thanks to o KB o for this solution
-	  Matrix.CreateTranslation(new Vector3(-_pos.X, -_pos.Y, 0)) *
-								 Matrix.CreateRotationZ(Rotation) *
-								 Matrix.CreateScale(new Vector3(Zoom, Zoom, 1)) *
-								 Matrix.CreateTranslation(new Vector3(graphicsDevice.Viewport.Width * 0.5f, graphicsDevice.Viewport.Height * 0.5f, 0));
-	return _transform;
-}
+        centre = new Vector2(position.X,position.Y);
+        transform = Matrix.CreateTranslation(new Vector3 (-centre.X, -centre.Y, 0)) *
+                                                          Matrix.CreateRotationZ(Rotation) *
+                                                          Matrix.CreateScale(new Vector3(Zoom, Zoom, 0)) *
+                                                          Matrix.CreateTranslation(new Vector3(viewport.Width / 2, viewport.Height / 2, 0));
+    }
 }
