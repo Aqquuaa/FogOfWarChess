@@ -57,11 +57,10 @@ public class Game1 : Game
         chessBoard.LoadTexture(Content);
     }
 
-    void MediaPlayer_MediaStateChanged(object sender, System.EventArgs e)
+    void MediaPlayer_MediaStateChanged(float LouderOrNot)
     {
         // 0.0f is silent, 1.0f is full volume
-        MediaPlayer.Volume -= 0.1f;
-        MediaPlayer.Play(song);
+        MediaPlayer.Volume -= LouderOrNot;
     }
 
     protected override void Update(GameTime gameTime)
@@ -71,10 +70,10 @@ public class Game1 : Game
 
         // TODO: Add your update logic here
 
-        if (Keyboard.GetState().IsKeyDown(Keys.W))
-            cam_white_player.Rotation = 0.5f;
-        if (Keyboard.GetState().IsKeyDown(Keys.B))
-            cam_black_player.Rotation = 0f;
+        if (Keyboard.GetState().IsKeyDown(Keys.OemPlus))
+            MediaPlayer_MediaStateChanged(-0.02f);
+        if (Keyboard.GetState().IsKeyDown(Keys.OemMinus))
+            MediaPlayer_MediaStateChanged(0.02f);
         base.Update(gameTime);
     }
 
