@@ -75,11 +75,21 @@ public class Game1 : Game
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
         // TODO: Add your update logic here
-
+        //Test for rotating camera
         if (Keyboard.GetState().IsKeyDown(Keys.W))
-            cam_white_player.Rotation = 0.5f;
+            camera.Rotation = 0;
         if (Keyboard.GetState().IsKeyDown(Keys.B))
-            cam_black_player.Rotation = 0f;
+            camera.Rotation = 21.99f;
+        // 11f for vertical fight(i don't know how explain it. just test it)
+        // 21.99f (not 22f!!!) for rotating camera by 180*
+        camera.Update(new Vector2 (_graphics.PreferredBackBufferWidth / 2,_graphics.PreferredBackBufferHeight / 2));
+        //End test for rotating camera
+        //Music Control
+        if (Keyboard.GetState().IsKeyDown(Keys.OemPlus))
+            MediaPlayer_MediaStateChanged(0.02f);
+        if (Keyboard.GetState().IsKeyDown(Keys.OemMinus))
+            MediaPlayer_MediaStateChanged(-0.02f);
+        //End of Music Control
         base.Update(gameTime);
     }
 
