@@ -46,6 +46,7 @@ public class Game1 : Game
         _graphics.ApplyChanges();
 
         //Or we can set it fullscreen. In this case, return boardsize protection back to private. Also if will use it, we will have standard blue background
+        //But also we will have a bug with camera rotation
         /*_graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
         _graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
         _graphics.ApplyChanges();*/
@@ -67,7 +68,7 @@ public class Game1 : Game
     void MediaPlayer_MediaStateChanged(float LouderOrNot)
     {
         // 0.0f is silent, 1.0f is full volume
-        MediaPlayer.Volume -= LouderOrNot;
+        MediaPlayer.Volume += LouderOrNot;
     }
 
     protected override void Update(GameTime gameTime)
@@ -77,9 +78,9 @@ public class Game1 : Game
         // TODO: Add your update logic here
         //Test for rotating camera
         if (Keyboard.GetState().IsKeyDown(Keys.W))
-            camera.Rotation = 0;
+            camera.Rotation = 0;            
         if (Keyboard.GetState().IsKeyDown(Keys.B))
-            camera.Rotation = 21.99f;
+            camera.Rotation = 21.99f;   
         // 11f for vertical fight(i don't know how explain it. just test it)
         // 21.99f (not 22f!!!) for rotating camera by 180*
         camera.Update(new Vector2 (_graphics.PreferredBackBufferWidth / 2,_graphics.PreferredBackBufferHeight / 2));

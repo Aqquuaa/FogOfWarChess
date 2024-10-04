@@ -7,9 +7,6 @@ namespace FogOfWarChess.MainCore.MainEngine;
 
 public class ChessBoard
 {
-    private readonly Piece[,] pieces = new Piece[8,8]; // creating rectangular array to store pieces
-    //I don't think it's necessary to have another array to store pieces when 
-    //we have field in each ChessTile to store chess piece
     public int boardSize;//I've changed protection, so we could change dynamicaly size of a window. alternatively we can open it in standard 1920*1080 
     private ChessTile[,] tiles;
 
@@ -36,13 +33,13 @@ public class ChessBoard
 
     public Piece this[int row, int col]
     {
-        get { return pieces[row, col]; }
-        set { pieces[row, col] = value; }
+        get { return tiles[row, col].GetPiece(); }
+        set { tiles[row, col].SetPiece(value); }
     }
     public Piece this[Position pos]
     {
-        get { return this[pos.Row, pos.Column]; }
-        set { this[pos.Row, pos.Column] = value;}
+        get { return tiles[pos.Row, pos.Column].GetPiece(); }
+        set { tiles[pos.Row, pos.Column].SetPiece(value);}
     }
 
     public void SetChessPiecesPositions()
