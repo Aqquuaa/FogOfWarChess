@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FogOfWarChess")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4f10fed67621c6bd8dac795f5cc48434882a6a00")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c166c3547e950aec330bd9bb30fc3d52bf024cd9")]
 [assembly: System.Reflection.AssemblyProductAttribute("FogOfWarChess")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FogOfWarChess")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Nazar\\source\\repos\\Aqquuaa\\FogOfWarChess\\FogOfWarChess\\FogOfWarChess.csproj": {}
+    "C:\\Users\\Nazar\\Source\\Repos\\FogOfWarChess\\FogOfWarChess\\FogOfWarChess.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Nazar\\source\\repos\\Aqquuaa\\FogOfWarChess\\FogOfWarChess\\FogOfWarChess.csproj": {
+    "C:\\Users\\Nazar\\Source\\Repos\\FogOfWarChess\\FogOfWarChess\\FogOfWarChess.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Nazar\\source\\repos\\Aqquuaa\\FogOfWarChess\\FogOfWarChess\\FogOfWarChess.csproj",
+        "projectUniqueName": "C:\\Users\\Nazar\\Source\\Repos\\FogOfWarChess\\FogOfWarChess\\FogOfWarChess.csproj",
         "projectName": "FogOfWarChess",
-        "projectPath": "C:\\Users\\Nazar\\source\\repos\\Aqquuaa\\FogOfWarChess\\FogOfWarChess\\FogOfWarChess.csproj",
+        "projectPath": "C:\\Users\\Nazar\\Source\\Repos\\FogOfWarChess\\FogOfWarChess\\FogOfWarChess.csproj",
         "packagesPath": "C:\\Users\\Nazar\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Nazar\\source\\repos\\Aqquuaa\\FogOfWarChess\\FogOfWarChess\\obj\\",
+        "outputPath": "C:\\Users\\Nazar\\Source\\Repos\\FogOfWarChess\\FogOfWarChess\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Nazar\\AppData\\Roaming\\NuGet\\NuGet.Config",
