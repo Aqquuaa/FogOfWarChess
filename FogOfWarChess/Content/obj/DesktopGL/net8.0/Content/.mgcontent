@@ -4,23 +4,25 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
-    <File>D:/University/Programming/2/FogOfWarChess/FogOfWarChess/Content/CoreTextures/BishopBlack.png</File>
-    <File>D:/University/Programming/2/FogOfWarChess/FogOfWarChess/Content/CoreTextures/BishopWhite.png</File>
-    <File>D:/University/Programming/2/FogOfWarChess/FogOfWarChess/Content/CoreTextures/DarkTile.png</File>
-    <File>D:/University/Programming/2/FogOfWarChess/FogOfWarChess/Content/CoreTextures/KingBlack.png</File>
-    <File>D:/University/Programming/2/FogOfWarChess/FogOfWarChess/Content/CoreTextures/KingWhite.png</File>
-    <File>D:/University/Programming/2/FogOfWarChess/FogOfWarChess/Content/CoreTextures/KnightBlack.png</File>
-    <File>D:/University/Programming/2/FogOfWarChess/FogOfWarChess/Content/CoreTextures/KnightWhite.png</File>
-    <File>D:/University/Programming/2/FogOfWarChess/FogOfWarChess/Content/CoreTextures/LightTile.png</File>
-    <File>D:/University/Programming/2/FogOfWarChess/FogOfWarChess/Content/CoreTextures/PawnBlack.png</File>
-    <File>D:/University/Programming/2/FogOfWarChess/FogOfWarChess/Content/CoreTextures/PawnWhite.png</File>
-    <File>D:/University/Programming/2/FogOfWarChess/FogOfWarChess/Content/CoreTextures/QueenBlack.png</File>
-    <File>D:/University/Programming/2/FogOfWarChess/FogOfWarChess/Content/CoreTextures/QueenWhite.png</File>
-    <File>D:/University/Programming/2/FogOfWarChess/FogOfWarChess/Content/CoreTextures/RookBlack.png</File>
-    <File>D:/University/Programming/2/FogOfWarChess/FogOfWarChess/Content/CoreTextures/RookWhite.png</File>
-    <File>D:/University/Programming/2/FogOfWarChess/FogOfWarChess/Content/Sounds/Music/BackgroundMusic.mp3</File>
+    <File>C:/Users/Nazar/Source/Repos/FogOfWarChess/FogOfWarChess/Content/CoreTextures/BishopBlack.png</File>
+    <File>C:/Users/Nazar/Source/Repos/FogOfWarChess/FogOfWarChess/Content/CoreTextures/BishopWhite.png</File>
+    <File>C:/Users/Nazar/Source/Repos/FogOfWarChess/FogOfWarChess/Content/CoreTextures/DarkTile.png</File>
+    <File>C:/Users/Nazar/Source/Repos/FogOfWarChess/FogOfWarChess/Content/CoreTextures/KingBlack.png</File>
+    <File>C:/Users/Nazar/Source/Repos/FogOfWarChess/FogOfWarChess/Content/CoreTextures/KingWhite.png</File>
+    <File>C:/Users/Nazar/Source/Repos/FogOfWarChess/FogOfWarChess/Content/CoreTextures/KnightBlack.png</File>
+    <File>C:/Users/Nazar/Source/Repos/FogOfWarChess/FogOfWarChess/Content/CoreTextures/KnightWhite.png</File>
+    <File>C:/Users/Nazar/Source/Repos/FogOfWarChess/FogOfWarChess/Content/CoreTextures/LightTile.png</File>
+    <File>C:/Users/Nazar/Source/Repos/FogOfWarChess/FogOfWarChess/Content/CoreTextures/PawnBlack.png</File>
+    <File>C:/Users/Nazar/Source/Repos/FogOfWarChess/FogOfWarChess/Content/CoreTextures/PawnWhite.png</File>
+    <File>C:/Users/Nazar/Source/Repos/FogOfWarChess/FogOfWarChess/Content/CoreTextures/QueenBlack.png</File>
+    <File>C:/Users/Nazar/Source/Repos/FogOfWarChess/FogOfWarChess/Content/CoreTextures/QueenWhite.png</File>
+    <File>C:/Users/Nazar/Source/Repos/FogOfWarChess/FogOfWarChess/Content/CoreTextures/RedTile.png</File>
+    <File>C:/Users/Nazar/Source/Repos/FogOfWarChess/FogOfWarChess/Content/CoreTextures/RookBlack.png</File>
+    <File>C:/Users/Nazar/Source/Repos/FogOfWarChess/FogOfWarChess/Content/CoreTextures/RookWhite.png</File>
+    <File>C:/Users/Nazar/Source/Repos/FogOfWarChess/FogOfWarChess/Content/Sounds/Music/BackgroundMusic.mp3</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

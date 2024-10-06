@@ -1,20 +1,20 @@
-﻿using FogOfWarChess.MainCore.MainEngine.ChessPieces;
+﻿using System;
+using FogOfWarChess.MainCore.MainEngine.ChessPieces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace FogOfWarChess.MainCore.MainEngine;
 
 public class ChessBoard
 {
-    private readonly Piece[,] pieces = new Piece[8,8]; // creating rectangular array to store pieces
-    //I don't think it's necessary to have another array to store pieces when 
-    //we have field in each ChessTile to store chess piece
     public int boardSize;//I've changed protection, so we could change dynamicaly size of a window. alternatively we can open it in standard 1920*1080 
     private ChessTile[,] tiles;
 
-    public ChessBoard(int boardSize = 8)
-    {   
+    public ChessBoard(int boardSize = GlobalVariables.sizeOfBoard)
+    {
         this.boardSize = boardSize;
 
         tiles = new ChessTile[boardSize, boardSize];
@@ -28,7 +28,7 @@ public class ChessBoard
         }
 
         SetChessPiecesPositions();
-        
+
     }
     /// <summary>
     /// Method to set all chess pieces on your size board
@@ -36,13 +36,13 @@ public class ChessBoard
 
     public Piece this[int row, int col]
     {
-        get { return pieces[row, col]; }
-        set { pieces[row, col] = value; }
+        get { return tiles[row, col].GetPiece(); }
+        set { tiles[row, col].SetPiece(value); }
     }
     public Piece this[Position pos]
     {
-        get { return this[pos.Row, pos.Column]; }
-        set { this[pos.Row, pos.Column] = value;}
+        get { return tiles[pos.Row, pos.Column].GetPiece(); }
+        set { tiles[pos.Row, pos.Column].SetPiece(value); }
     }
 
     public void SetChessPiecesPositions()
@@ -76,7 +76,7 @@ public class ChessBoard
     {
         ChessBoard chessBoard = new ChessBoard();
         chessBoard.SetChessPiecesPositions();
-        return chessBoard;   
+        return chessBoard;
     }
     public bool IsTileEmpty(int row, int column)
     {
@@ -98,11 +98,11 @@ public class ChessBoard
             return tiles[row, column];
         }
         return null;
-    }   
+    }
 
-/// <summary>
-/// Method to set some piece to some tile
-/// </summary>
+    /// <summary>
+    /// Method to set some piece to some tile
+    /// </summary>
 
     public void MovePiece(ChessTile startTile, ChessTile finishTile)
     {
@@ -127,6 +127,14 @@ public class ChessBoard
         return this[pos] == null;
     }
 
+    public void DrawPossibleMoves(IEnumerable<Position> position)
+    {
+        foreach (var pos in position)
+        {
+            Debug.Print("Possible moves are {0} {1}",pos.Column, pos.Row);
+            tiles[pos.Column, pos.Row].SetPossibleMove();
+        }
+    }
     public void LoadTexture(ContentManager content)
     {
         // Load the textures for each tile
@@ -150,7 +158,7 @@ public class ChessBoard
         {
             for (var column = 0; column < boardSize; column++)
             {
-                Vector2 position = new Vector2(column * 40, row * 40); 
+                Vector2 position = new Vector2(column * 40, row * 40);
                 tiles[row, column].Draw(spriteBatch, position);
             }
         }

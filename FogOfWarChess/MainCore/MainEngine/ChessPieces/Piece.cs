@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.AccessControl;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -18,7 +16,7 @@ namespace FogOfWarChess.MainCore.MainEngine
         public abstract Piece Copy();
         public abstract IEnumerable<Move> GetMoves(Position from, ChessBoard board);
 
-        //This method finds all possibles moves for rock, bishop and queen. They share similar patern: they can move as many tiles as possible. 
+        //This method finds all possibles moves for rook, bishop and queen. They share similar pattern: they can move as many tiles as possible. 
         protected IEnumerable<Position> MovePositionInDir(Position from, ChessBoard board, Direction dir)
         {
             
