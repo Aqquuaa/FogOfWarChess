@@ -9,7 +9,7 @@
     }   
     public static class PlayerExtensions
     {
-        public static Color Oponent(this Color player)
+        public static Color Opponent(this Color player)
         {
             return player switch
             {
