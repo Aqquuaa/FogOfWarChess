@@ -12,9 +12,10 @@ public class Game1 : Game
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
     private ChessBoard chessBoard;
-    private Song song;
-    Camera camera;
+    private Camera camera;
     private User user;
+    private Song song;
+
     public Game1()
     {
         _graphics = new GraphicsDeviceManager(this);
@@ -26,6 +27,7 @@ public class Game1 : Game
     {
         chessBoard = new ChessBoard();
         user = new User();
+        user.InitHandlingMoves();
         WindowSizeFind(chessBoard.boardSize);
 
         base.Initialize();

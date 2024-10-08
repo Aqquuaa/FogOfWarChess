@@ -36,6 +36,11 @@ public class ChessTile
     {
         possibleMove = true;
     }
+
+    public void SetPossibleMoveToFalse()
+    {
+        possibleMove = false;
+    }
     public void LoadContent(ContentManager content)
     {
         darkTileTexture2D = content.Load<Texture2D>("DarkTile");

@@ -1,3 +1,6 @@
+using System;
+using System.Buffers.Binary;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework.Content;
 
 namespace FogOfWarChess.MainCore.MainEngine
@@ -18,5 +21,26 @@ namespace FogOfWarChess.MainCore.MainEngine
             return new Position(pos.Row + dir.RowDelta, pos.Column + dir.ColumnDelta);
         }
 
+        public override bool Equals(object obj)
+        {
+            return obj is Position position &&
+                   Row == position.Row &&
+                   Column == position.Column;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Row, Column);
+        }
+
+        public static bool operator ==(Position left, Position right)
+        {
+            return EqualityComparer<Position>.Default.Equals(left, right);
+        }
+
+        public static bool operator !=(Position left, Position right)
+        {
+            return !(left == right);
+        }
     }
 }

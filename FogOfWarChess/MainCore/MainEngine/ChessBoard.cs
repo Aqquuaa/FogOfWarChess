@@ -10,8 +10,8 @@ namespace FogOfWarChess.MainCore.MainEngine;
 
 public class ChessBoard
 {
-    public int boardSize;//I've changed protection, so we could change dynamicaly size of a window. alternatively we can open it in standard 1920*1080 
-    private ChessTile[,] tiles;
+    public int boardSize;
+    private readonly ChessTile[,] tiles;
 
     public ChessBoard(int boardSize = GlobalVariables.sizeOfBoard)
     {
@@ -65,7 +65,7 @@ public class ChessBoard
         tiles[7, 6].SetPiece(new Knight(Color.White));
         tiles[7, 7].SetPiece(new Rook(Color.White));
 
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < boardSize; i++)
         {
             tiles[1, i].SetPiece(new Pawn(Color.Black));
             tiles[6, i].SetPiece(new Pawn(Color.White));
@@ -104,7 +104,7 @@ public class ChessBoard
     /// Method to set some piece to some tile
     /// </summary>
 
-    public void MovePiece(ChessTile startTile, ChessTile finishTile)
+    public static void MovePiece(ChessTile startTile, ChessTile finishTile)
     {
         var chessPiece = startTile.GetPiece();
         finishTile.SetPiece(chessPiece);
@@ -131,10 +131,20 @@ public class ChessBoard
     {
         foreach (var pos in position)
         {
-            Debug.Print("Possible moves are {0} {1}",pos.Column, pos.Row);
-            tiles[pos.Column, pos.Row].SetPossibleMove();
+            Debug.Print("Possible moves are {0} {1}", pos.Row, pos.Column);
+            tiles[pos.Row, pos.Column].SetPossibleMove();
         }
     }
+
+    public void ForgetPossibleMoves(IEnumerable<Position> position)
+    {
+        foreach(var pos in position)
+        {
+            Debug.Print("Possible move {0} {1} forgotten", pos.Row, pos.Column);
+            tiles[pos.Row, pos.Column].SetPossibleMoveToFalse();
+        }
+    }
+    
     public void LoadTexture(ContentManager content)
     {
         // Load the textures for each tile
