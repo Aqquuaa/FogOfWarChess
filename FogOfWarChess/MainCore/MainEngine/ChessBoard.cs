@@ -131,7 +131,7 @@ public class ChessBoard
     {
         foreach (var pos in position)
         {
-            Debug.Print("Possible moves are {0} {1}", pos.Row, pos.Column);
+            Console.WriteLine("Possible moves are {0} {1}", pos.Column, pos.Row);
             tiles[pos.Row, pos.Column].SetPossibleMove();
         }
     }
@@ -140,7 +140,7 @@ public class ChessBoard
     {
         foreach(var pos in position)
         {
-            Debug.Print("Possible move {0} {1} forgotten", pos.Row, pos.Column);
+            Debug.Print("Possible move {0} {1} forgotten", pos.Column, pos.Row);
             tiles[pos.Row, pos.Column].SetPossibleMoveToFalse();
         }
     }

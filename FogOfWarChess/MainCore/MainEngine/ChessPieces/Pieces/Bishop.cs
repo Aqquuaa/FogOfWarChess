@@ -29,7 +29,7 @@ public class Bishop : Piece
 
     public override IEnumerable<Move> GetMoves(Position from, ChessBoard board)
     {
-       return MovePositionInDirs(from, board, dirs).Select(to => new NormalMove(from, to));
+        return MovePositionInDirs(from, board, dirs).Select(to => new NormalMove(from, to));
     }
 }
 
