@@ -49,12 +49,16 @@ public class User
         //Function works only after user releases left button
         if (previousLeftButtonState == ButtonState.Pressed && mouseState.LeftButton == ButtonState.Released)
         {
+
             //Row - y, Column - x
             Vector2 mouseCoordinates = GetMouseCoordinates(mouseState);
             row = (int)mouseCoordinates.Y / tileSize;
             column = (int)mouseCoordinates.X / tileSize;
             Console.WriteLine("MouseCoordinates X.{0} Y.{1}", mouseCoordinates.X, mouseCoordinates.Y);
             Console.WriteLine("ClickedPosition {0} {1}", column, row);
+
+            //We hide possible moves (red tiles) after each mouse click
+            chessBoard.ForgetPossibleMoves();
 
             //Was a bug, that game would crash if we click outside of the game
             if (mouseCoordinates.X > 0 && mouseCoordinates.X < GlobalVariables.sizeOfBoard * GlobalVariables.tileSize &&
@@ -67,7 +71,7 @@ public class User
                     //Console.WriteLine(selectedPiece.Color);
 
 
-                    if (selectedPiece != null)
+                    if (selectedPiece != null && selectedPiece.Color != handlingMoves.CurrentPlayersColor.Opponent())
                     {
                         Console.WriteLine(selectedPiece);
                         FromPositionSel(clickedPosition, chessBoard);
@@ -85,7 +89,6 @@ public class User
     
     private void FromPositionSel(Position pos, ChessBoard chessBoard) // We call this method, if we have no selected piece
     {
-        
         IEnumerable<Move> moves = handlingMoves.LegalMoves(pos, chessBoard);
         Console.WriteLine("From");
         if (moves.Any())
@@ -100,12 +103,12 @@ public class User
     }
 
     private void ToPositionSel(Position pos, ChessBoard chessBoard)
-    { 
-        //Here we should hide red tiles
+    {
         Console.WriteLine("To, cached; positions {0}, {1}", pos.Column, pos.Row);
         selectedPos = null;
         if(handlingMoves.moveCache.TryGetValue(pos, out Move move))
-            HandleMove(move, chessBoard);
+            HandleMove(move, chessBoard); 
+
     }   
 
     private void HandleMove(Move move, ChessBoard chessBoard)
