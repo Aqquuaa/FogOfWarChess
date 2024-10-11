@@ -3,9 +3,7 @@ using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework.Media;
-using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Diagnostics;
 
 namespace FogOfWarChess.MainCore.MainEngine;
 

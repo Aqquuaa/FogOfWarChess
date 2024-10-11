@@ -136,7 +136,7 @@ public class ChessBoard
         }
     }
 
-    public void ForgetPossibleMoves(IEnumerable<Position> position)
+    /*public void ForgetPossibleMoves(IEnumerable<Position> position)
     {
         foreach(var pos in position)
         {
@@ -144,7 +144,20 @@ public class ChessBoard
             tiles[pos.Row, pos.Column].SetPossibleMoveToFalse();
         }
     }
-    
+    */
+
+    //slower but "easier" implementation of method above
+    public void ForgetPossibleMoves()
+    {
+        for (var row = 0; row < boardSize; row++)
+        {
+            for (var column = 0; column < boardSize; column++)
+            {
+                tiles[row, column].SetPossibleMoveToFalse();
+            }
+        }
+    }
+
     public void LoadTexture(ContentManager content)
     {
         // Load the textures for each tile

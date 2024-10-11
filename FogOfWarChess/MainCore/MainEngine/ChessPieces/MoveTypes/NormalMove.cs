@@ -18,6 +18,7 @@ namespace FogOfWarChess.MainCore.MainEngine
             board[ToPos] = piece;
             board[FromPos] = null;
             piece.HasMoved = true;
+            board.ForgetPossibleMoves();
         }
     }
 
