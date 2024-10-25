@@ -11,16 +11,19 @@ public class ChessTile
     private int row;
     private int column;
     private Piece chessPiece;
+    private bool fogOfWar;
     private bool possibleMove;
 
     private Texture2D darkTileTexture2D;
     private Texture2D lightTileTexture2D;
     private Texture2D possibleMoveTexture2D;
+    private Texture2D fogTexture2D;
     public ChessTile(int row, int column, Piece chessPiece = null)
     {
         this.row = row;
         this.column = column;
         this.possibleMove = false;
+        this.fogOfWar = true;
     }
     public void SetPiece(Piece _chessPiece)
     {
@@ -46,10 +49,15 @@ public class ChessTile
         darkTileTexture2D = content.Load<Texture2D>("DarkTile");
         lightTileTexture2D = content.Load<Texture2D>("LightTile");
         possibleMoveTexture2D = content.Load<Texture2D>("RedTile");
+        fogTexture2D = content.Load<Texture2D>("FogTile");
     }
 
     public void Draw(SpriteBatch spriteBatch, Vector2 position)
     {
+        if (fogOfWar == true)
+        {
+
+        }
         if (possibleMove == false)
         {
             Texture2D tileTexture = (row + column) % 2 == 0 ? lightTileTexture2D : darkTileTexture2D;

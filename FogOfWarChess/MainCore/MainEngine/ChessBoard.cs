@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace FogOfWarChess.MainCore.MainEngine;
 
@@ -186,4 +185,17 @@ public class ChessBoard
             }
         }
     }
+
+    public void DrawInverted(SpriteBatch spriteBatch)
+    {
+        for (var row = boardSize - 1; row >= 0; row--)
+        {
+            for (var column = boardSize - 1; column >= 0; column--)
+            {
+                Vector2 position = new Vector2((boardSize - 1 - column) * 40, (boardSize - 1 - row) * 40);
+                tiles[row, column].Draw(spriteBatch, position);
+            }
+        }
+    }
+
 }

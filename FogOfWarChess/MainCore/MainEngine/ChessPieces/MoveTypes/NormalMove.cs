@@ -21,5 +21,4 @@ namespace FogOfWarChess.MainCore.MainEngine
         }
     }
 
-
 }

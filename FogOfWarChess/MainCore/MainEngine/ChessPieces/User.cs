@@ -12,12 +12,14 @@ public class User
     private ButtonState previousLeftButtonState = ButtonState.Released;
     private Position selectedPos = null;
     private HandlingMoves handlingMoves;
+    private Color playerColor = Color.White;
     ChessBoard chessBoard;
 
     public void GetUserInput(KeyboardState keyboardState, MouseState mouseState, ChessBoard chessBoard)
     {
         SelectPiece(mouseState, chessBoard);
         MediaPlayerVolumeChange(keyboardState);
+        DebugColorChange(keyboardState);
     }
 
     public void InitHandlingMoves()
@@ -25,6 +27,13 @@ public class User
         handlingMoves = new HandlingMoves(Color.White, chessBoard);
     }
 
+    private void DebugColorChange(KeyboardState keyboardState)
+    {
+        if (Keyboard.GetState().IsKeyDown(Keys.W))
+            playerColor = Color.White;
+        if (Keyboard.GetState().IsKeyDown(Keys.B))
+            playerColor = Color.Black;
+    }
     void MediaPlayerVolumeChange(KeyboardState keyboardState)
     { 
         if (Keyboard.GetState().IsKeyDown(Keys.OemPlus))
@@ -54,6 +63,11 @@ public class User
             Vector2 mouseCoordinates = GetMouseCoordinates(mouseState);
             row = (int)mouseCoordinates.Y / tileSize;
             column = (int)mouseCoordinates.X / tileSize;
+            if (playerColor == Color.Black)
+            {
+                row = GlobalVariables.sizeOfBoard - 1 - row;
+                column = GlobalVariables.sizeOfBoard - 1 - column;
+            }
             Console.WriteLine("MouseCoordinates X.{0} Y.{1}", mouseCoordinates.X, mouseCoordinates.Y);
             Console.WriteLine("ClickedPosition {0} {1}", column, row);
 
@@ -71,7 +85,7 @@ public class User
                     //Console.WriteLine(selectedPiece.Color);
 
 
-                    if (selectedPiece != null && selectedPiece.Color != handlingMoves.CurrentPlayersColor.Opponent())
+                    if (selectedPiece != null && selectedPiece.Color == handlingMoves.CurrentPlayersColor)
                     {
                         Console.WriteLine(selectedPiece);
                         FromPositionSel(clickedPosition, chessBoard);
@@ -107,8 +121,7 @@ public class User
         Console.WriteLine("To, cached; positions {0}, {1}", pos.Column, pos.Row);
         selectedPos = null;
         if(handlingMoves.moveCache.TryGetValue(pos, out Move move))
-            HandleMove(move, chessBoard); 
-
+            HandleMove(move, chessBoard);
     }   
 
     private void HandleMove(Move move, ChessBoard chessBoard)
@@ -123,5 +136,11 @@ public class User
         {
             handlingMoves.moveCache[move.ToPos] = move;
         }
+    }
+
+    public Color Color
+    {
+        get { return playerColor; }
+        set { playerColor = value; }
     }
 }

@@ -73,10 +73,10 @@ public class Game1 : Game
         // TODO: Add your update logic here
 
         //Test for rotating camera
-        if (Keyboard.GetState().IsKeyDown(Keys.W))
-            camera.Rotation = 0;
-        if (Keyboard.GetState().IsKeyDown(Keys.B))
-            camera.Rotation = 21.99f;
+        //if (Keyboard.GetState().IsKeyDown(Keys.W))
+            //camera.Rotation = 0;
+        //if (Keyboard.GetState().IsKeyDown(Keys.B))
+            //camera.Rotation = 21.99f;
         // 11f for vertical fight(i don't know how explain it. just test it)
         // 21.99f (not 22f!!!) for rotating camera by 180*
         camera.Update(new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 2));
@@ -97,7 +97,12 @@ public class Game1 : Game
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);
         _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.Transform);
-        chessBoard.Draw(_spriteBatch);
+        if (user.Color == MainCore.MainEngine.Color.White)
+        {
+            chessBoard.Draw(_spriteBatch);
+        }
+        else chessBoard.DrawInverted(_spriteBatch);
+
         _spriteBatch.End();
         // TODO: Add your drawing code here
 
