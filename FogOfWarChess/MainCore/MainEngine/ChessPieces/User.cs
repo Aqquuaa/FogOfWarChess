@@ -109,8 +109,6 @@ public class User
         {
             selectedPos = pos;
             CacheMoves(moves);
-            foreach(var move in moves)
-                  Console.WriteLine("Moves are cached {0}",move);
             IEnumerable<Position> movePositions = moves.Select(move => move.ToPos);
             chessBoard.DrawPossibleMoves(movePositions);
         }
@@ -118,10 +116,11 @@ public class User
 
     private void ToPositionSel(Position pos, ChessBoard chessBoard)
     {
-        Console.WriteLine("To, cached; positions {0}, {1}", pos.Column, pos.Row);
+        Console.WriteLine("To");
         selectedPos = null;
         if(handlingMoves.moveCache.TryGetValue(pos, out Move move))
             HandleMove(move, chessBoard);
+        handlingMoves.moveCache.Clear();
     }   
 
     private void HandleMove(Move move, ChessBoard chessBoard)
