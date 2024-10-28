@@ -44,6 +44,7 @@ public class ChessBoard
         set { tiles[pos.Row, pos.Column].SetPiece(value); }
     }
 
+    //If we will make any more pieces, we should use other method, that would be more dynamical
     public void SetChessPiecesPositions()
     {
         tiles[0, 0].SetPiece(new Rook(Color.Black));
@@ -135,18 +136,19 @@ public class ChessBoard
         }
     }
 
-    /*public void ForgetPossibleMoves(IEnumerable<Position> position)
+    //I guess it's faster version of forgetting red tiles. We get list of only legal moves of piece and delete red tiles only on them 
+    public void ForgetPossibleMovesNew(IEnumerable<Position> position)
     {
         foreach(var pos in position)
         {
-            Debug.Print("Possible move {0} {1} forgotten", pos.Column, pos.Row);
+            Console.WriteLine("we forgot: {0}", tiles[pos.Row, pos.Column]);
             tiles[pos.Row, pos.Column].SetPossibleMoveToFalse();
         }
     }
-    */
+    
 
     //slower but "easier" implementation of method above
-    public void ForgetPossibleMoves()
+    /*public void ForgetPossibleMoves()
     {
         for (var row = 0; row < boardSize; row++)
         {
@@ -155,7 +157,7 @@ public class ChessBoard
                 tiles[row, column].SetPossibleMoveToFalse();
             }
         }
-    }
+    }*/
 
     public void LoadTexture(ContentManager content)
     {

@@ -4,6 +4,7 @@ namespace FogOfWarChess.MainCore.MainEngine;
 
 class Camera 
 {
+    //I don't know do we need this. So if you are not using, you can delete it
     private Matrix transform;
     public Matrix Transform {get { return transform; }}
 

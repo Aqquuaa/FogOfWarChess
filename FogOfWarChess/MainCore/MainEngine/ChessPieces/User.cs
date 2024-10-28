@@ -10,11 +10,14 @@ namespace FogOfWarChess.MainCore.MainEngine;
 public class User
 {
     private ButtonState previousLeftButtonState = ButtonState.Released;
-    private Position selectedPos = null;
+    private Position selectedPos = null; // we can delete this? we record position of piece and then.. delete it?
     private HandlingMoves handlingMoves;
     private Color playerColor = Color.White;
-    ChessBoard chessBoard;
+    //With this, we should have faster implementation of clearing board from red tiles
+    private IEnumerable<Position> movePositions = null;
+    private ChessBoard chessBoard;
 
+    //We get Input From user
     public void GetUserInput(KeyboardState keyboardState, MouseState mouseState, ChessBoard chessBoard)
     {
         SelectPiece(mouseState, chessBoard);
@@ -34,7 +37,9 @@ public class User
         if (Keyboard.GetState().IsKeyDown(Keys.B))
             playerColor = Color.Black;
     }
-    void MediaPlayerVolumeChange(KeyboardState keyboardState)
+
+    //If we want, we can change how load music plays (I think we'll need it relocate)
+    static void MediaPlayerVolumeChange(KeyboardState keyboardState)
     { 
         if (Keyboard.GetState().IsKeyDown(Keys.OemPlus))
             MediaPlayer.Volume += +0.02f;
@@ -42,7 +47,8 @@ public class User
             MediaPlayer.Volume += -0.02f;
     }
 
-    private Vector2 GetMouseCoordinates(MouseState mouseState)
+    //We get mouse coordinates as vector 
+    private static Vector2 GetMouseCoordinates(MouseState mouseState)
     {
         Point position = mouseState.Position;
         return new Vector2(position.X, position.Y);
@@ -50,10 +56,10 @@ public class User
 
     /// <summary>
     /// Method to select piece we want to move
+    /// We need to refactor this
     /// </summary>
     private void SelectPiece(MouseState mouseState, ChessBoard chessBoard)
     {
-        int tileSize = 40;
         int column, row;
         //Function works only after user releases left button
         if (previousLeftButtonState == ButtonState.Pressed && mouseState.LeftButton == ButtonState.Released)
@@ -61,20 +67,21 @@ public class User
 
             //Row - y, Column - x
             Vector2 mouseCoordinates = GetMouseCoordinates(mouseState);
-            row = (int)mouseCoordinates.Y / tileSize;
-            column = (int)mouseCoordinates.X / tileSize;
+            row = (int)mouseCoordinates.Y / GlobalVariables.tileSize;
+            column = (int)mouseCoordinates.X / GlobalVariables.tileSize;
             if (playerColor == Color.Black)
             {
                 row = GlobalVariables.sizeOfBoard - 1 - row;
                 column = GlobalVariables.sizeOfBoard - 1 - column;
             }
+
             Console.WriteLine("MouseCoordinates X.{0} Y.{1}", mouseCoordinates.X, mouseCoordinates.Y);
             Console.WriteLine("ClickedPosition {0} {1}", column, row);
 
             //We hide possible moves (red tiles) after each mouse click
-            chessBoard.ForgetPossibleMoves();
+            //chessBoard.ForgetPossibleMoves();
 
-            //Was a bug, that game would crash if we click outside of the game
+            //Check if mouse is inside of game window. Probably inside of monoGame there is easier method
             if (mouseCoordinates.X > 0 && mouseCoordinates.X < GlobalVariables.sizeOfBoard * GlobalVariables.tileSize &&
                 mouseCoordinates.Y > 0 && mouseCoordinates.Y < GlobalVariables.sizeOfBoard * GlobalVariables.tileSize)
             {
@@ -82,8 +89,12 @@ public class User
                 {
                     Position clickedPosition = new Position(row, column);
                     Piece selectedPiece = chessBoard[clickedPosition];
+                    if(movePositions != null)
+                    {
+                        chessBoard.ForgetPossibleMovesNew(movePositions);
+                    }
+                    
                     //Console.WriteLine(selectedPiece.Color);
-
 
                     if (selectedPiece != null && selectedPiece.Color == handlingMoves.CurrentPlayersColor)
                     {
@@ -102,14 +113,17 @@ public class User
     }
     
     private void FromPositionSel(Position pos, ChessBoard chessBoard) // We call this method, if we have no selected piece
-    {
+    {   
+        //We create a new list of moves, that our piece can make. 
         IEnumerable<Move> moves = handlingMoves.LegalMoves(pos, chessBoard);
         Console.WriteLine("From");
+        //If we have any moves in our list, we cache this moves and execute the move.
         if (moves.Any())
         {
             selectedPos = pos;
             CacheMoves(moves);
-            IEnumerable<Position> movePositions = moves.Select(move => move.ToPos);
+            movePositions = null;
+            movePositions = moves.Select(move => move.ToPos);
             chessBoard.DrawPossibleMoves(movePositions);
         }
     }
@@ -121,6 +135,7 @@ public class User
         if(handlingMoves.moveCache.TryGetValue(pos, out Move move))
             HandleMove(move, chessBoard);
         handlingMoves.moveCache.Clear();
+        
     }   
 
     private void HandleMove(Move move, ChessBoard chessBoard)

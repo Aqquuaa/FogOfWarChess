@@ -31,17 +31,8 @@ public class HandlingMoves
 
     public void MakeMove(Move move, ChessBoard board)
     {
-            move.Execute(board);
-            CurrentPlayersColor = CurrentPlayersColor.Opponent();
-    }
-
-    public void CacheMoves(IEnumerable<Move> moves)
-    {
-        moveCache.Clear();
-
-        foreach(Move move in moves)
-        {
-            moveCache[move.ToPos] = move;
-        }
+        
+        move.Execute(board);
+        CurrentPlayersColor = CurrentPlayersColor.Opponent();
     }
 }
