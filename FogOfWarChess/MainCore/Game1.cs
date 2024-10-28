@@ -1,5 +1,7 @@
-﻿using FogOfWarChess.MainCore.MainEngine;
+﻿using System.IO;
+using FogOfWarChess.MainCore.MainEngine;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
@@ -58,7 +60,7 @@ public class Game1 : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-        this.song = Content.Load<Song>("BackgroundMusic");
+        this.song = Content.Load<Song>("Sounds/Music/BackgroundMusic");
         MediaPlayer.Play(song);
         MediaPlayer.Volume = 0.5f;
         MediaPlayer.IsRepeating = true;

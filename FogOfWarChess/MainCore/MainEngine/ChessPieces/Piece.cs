@@ -45,7 +45,7 @@ namespace FogOfWarChess.MainCore.MainEngine
 
         public void LoadTexture(ContentManager content)
         {
-            pieceTexture2D = content.Load<Texture2D>(PieceName + Color);
+            pieceTexture2D = content.Load<Texture2D>($"CoreTextures/{PieceName + Color}");
         }
         public void Draw(SpriteBatch spriteBatch, Vector2 positionVector2D)
         {

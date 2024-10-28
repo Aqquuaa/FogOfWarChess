@@ -29,21 +29,22 @@ public class ChessBoard
         SetChessPiecesPositions();
 
     }
-    /// <summary>
-    /// Method to set all chess pieces on your size board
-    /// </summary>
 
     public Piece this[int row, int col]
     {
         get { return tiles[row, col].GetPiece(); }
         set { tiles[row, col].SetPiece(value); }
     }
+    
     public Piece this[Position pos]
     {
         get { return tiles[pos.Row, pos.Column].GetPiece(); }
         set { tiles[pos.Row, pos.Column].SetPiece(value); }
     }
 
+    /// <summary>
+    /// Method to set all chess pieces on your size board
+    /// </summary>
     //If we will make any more pieces, we should use other method, that would be more dynamical
     public void SetChessPiecesPositions()
     {

@@ -46,10 +46,10 @@ public class ChessTile
     }
     public void LoadContent(ContentManager content)
     {
-        darkTileTexture2D = content.Load<Texture2D>("DarkTile");
-        lightTileTexture2D = content.Load<Texture2D>("LightTile");
-        possibleMoveTexture2D = content.Load<Texture2D>("RedTile");
-        fogTexture2D = content.Load<Texture2D>("FogTile");
+        darkTileTexture2D = content.Load<Texture2D>("CoreTextures/DarkTile");
+        lightTileTexture2D = content.Load<Texture2D>("CoreTextures/LightTile");
+        possibleMoveTexture2D = content.Load<Texture2D>("CoreTextures/RedTile");
+        fogTexture2D = content.Load<Texture2D>("CoreTextures/FogTile");
     }
 
     public void Draw(SpriteBatch spriteBatch, Vector2 position)
