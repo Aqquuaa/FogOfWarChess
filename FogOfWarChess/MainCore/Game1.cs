@@ -1,7 +1,5 @@
-﻿using System.IO;
-using FogOfWarChess.MainCore.MainEngine;
+﻿using FogOfWarChess.MainCore.MainEngine;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
@@ -14,7 +12,6 @@ public class Game1 : Game
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
     private ChessBoard chessBoard;
-    private Camera camera;
     private User user;
     private Song song;
 
@@ -65,7 +62,6 @@ public class Game1 : Game
         MediaPlayer.Volume = 0.5f;
         MediaPlayer.IsRepeating = true;
         chessBoard.LoadTexture(Content);
-        camera = new Camera(GraphicsDevice.Viewport);
     }
 
     protected override void Update(GameTime gameTime)
@@ -74,15 +70,6 @@ public class Game1 : Game
             Exit();
         // TODO: Add your update logic here
 
-        //Test for rotating camera
-        //if (Keyboard.GetState().IsKeyDown(Keys.W))
-            //camera.Rotation = 0;
-        //if (Keyboard.GetState().IsKeyDown(Keys.B))
-            //camera.Rotation = 21.99f;
-        // 11f for vertical fight(i don't know how explain it. just test it)
-        // 21.99f (not 22f!!!) for rotating camera by 180*
-        camera.Update(new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 2));
-        //End test for rotating camera
 
         HandleInput(gameTime);
 
@@ -93,12 +80,12 @@ public class Game1 : Game
     {
         KeyboardState keyboardState = Keyboard.GetState();
         MouseState mouseState = Mouse.GetState();
-        user.GetUserInput(keyboardState, mouseState, chessBoard);
+        user.GetUserInputForGame(keyboardState, mouseState, chessBoard);
     }
     protected override void Draw(GameTime gameTime)
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);
-        _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.Transform);
+        _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null);
         if (user.Color == MainCore.MainEngine.Color.White)
         {
             chessBoard.Draw(_spriteBatch);
