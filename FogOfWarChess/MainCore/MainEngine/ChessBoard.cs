@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace FogOfWarChess.MainCore.MainEngine;
 
@@ -27,7 +28,6 @@ public class ChessBoard
         }
 
         SetChessPiecesPositions();
-
     }
 
     public Piece this[int row, int col]
@@ -136,9 +136,55 @@ public class ChessBoard
             tiles[pos.Row, pos.Column].SetPossibleMove();
         }
     }
+    //debug function to set fog, gonna change soon
+    public void SetFog(Color userColor)
+    {
+        for (var row = 0; row < boardSize; row++)
+        {
+            for (var column = 0; column < boardSize; column++)
+            {
+                Position pos = new Position(row, column);
+
+                tiles[row, column].SetFog();
+            }
+        }
+    }
+
+
+    /*need fix later
+    public void ClearFogTiles(IEnumerable<Position> position)
+    {
+        foreach (var pos in position)
+        {
+            Console.WriteLine("Fog cleared at {0} {1}", pos.Column, pos.Row);
+            tiles[pos.Row, pos.Column].SetFogToFalse();
+        }
+    }
+    */
+
+    public void ClearFogTiles(Color userColor, IEnumerable<Position> visiblePositions)
+    {
+        for (var row = 0; row < boardSize; row++)
+        {
+            for (var column = 0; column < boardSize; column++)
+            {
+                var piece = tiles[row, column].GetPiece();
+                if (piece != null && piece.Color == userColor)
+                {
+                    tiles[row, column].SetFogToFalse();
+                }
+
+            }
+        }
+        foreach (var pos in visiblePositions)
+        {
+            tiles[pos.Row, pos.Column].SetFogToFalse();
+            Debug.WriteLine("Fog cleared at {0} {1}", pos.Column, pos.Row);
+        }
+    }
 
     //I guess it's faster version of forgetting red tiles. We get list of only legal moves of piece and delete red tiles only on them 
-    public void ForgetPossibleMovesNew(IEnumerable<Position> position)
+    public void ForgetPossibleMoves(IEnumerable<Position> position)
     {
         foreach(var pos in position)
         {

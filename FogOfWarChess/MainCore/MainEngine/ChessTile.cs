@@ -18,13 +18,15 @@ public class ChessTile
     private Texture2D lightTileTexture2D;
     private Texture2D possibleMoveTexture2D;
     private Texture2D fogTexture2D;
+
     public ChessTile(int row, int column, Piece chessPiece = null)
     {
         this.row = row;
         this.column = column;
         this.possibleMove = false;
-        this.fogOfWar = true;
+        this.fogOfWar = false;
     }
+
     public void SetPiece(Piece _chessPiece)
     {
         chessPiece = _chessPiece;
@@ -44,6 +46,17 @@ public class ChessTile
     {
         possibleMove = false;
     }
+
+    public void SetFog()
+    {
+        fogOfWar = true;
+    }
+
+    public void SetFogToFalse()
+    {
+        fogOfWar = false;
+    }
+
     public void LoadContent(ContentManager content)
     {
         darkTileTexture2D = content.Load<Texture2D>("CoreTextures/DarkTile");
@@ -54,23 +67,27 @@ public class ChessTile
 
     public void Draw(SpriteBatch spriteBatch, Vector2 position)
     {
-        if (fogOfWar == true)
+        if (fogOfWar)
         {
-
-        }
-        if (possibleMove == false)
-        {
-            Texture2D tileTexture = (row + column) % 2 == 0 ? lightTileTexture2D : darkTileTexture2D;
-            spriteBatch.Draw(tileTexture, position, Microsoft.Xna.Framework.Color.White);
+            spriteBatch.Draw(fogTexture2D, position, Microsoft.Xna.Framework.Color.White);
         }
         else
         {
-            spriteBatch.Draw(possibleMoveTexture2D, position, Microsoft.Xna.Framework.Color.White);
-        }
+            if (possibleMove == false)
+            {
+                Texture2D tileTexture = (row + column) % 2 == 0 ? lightTileTexture2D : darkTileTexture2D;
+                spriteBatch.Draw(tileTexture, position, Microsoft.Xna.Framework.Color.White);
+            }
+            else
+            {
+                spriteBatch.Draw(possibleMoveTexture2D, position, Microsoft.Xna.Framework.Color.White);
+            }
 
-        if (chessPiece != null)
-        {
-            chessPiece.Draw(spriteBatch, position);
+            if (chessPiece != null)
+            {
+                chessPiece.Draw(spriteBatch, position);
+            }
         }
     }
+
 }

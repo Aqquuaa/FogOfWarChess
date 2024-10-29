@@ -26,7 +26,7 @@ public class Game1 : Game
     {
         chessBoard = new ChessBoard();
         user = new User();
-        user.InitHandlingMoves();
+        user.InitUser(chessBoard);
         WindowSizeFind(chessBoard.boardSize);
 
         base.Initialize();
@@ -44,12 +44,6 @@ public class Game1 : Game
         _graphics.PreferredBackBufferWidth = Width;
         _graphics.PreferredBackBufferHeight = Width;
         _graphics.ApplyChanges();
-
-        //Or we can set it fullscreen. In this case, return boardsize protection back to private. Also if will use it, we will have standard blue background
-        //But also we will have a bug with camera rotation
-        /*_graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
-        _graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
-        _graphics.ApplyChanges();*/
 
     }
 

@@ -10,32 +10,36 @@ namespace FogOfWarChess.MainCore.MainEngine;
 public class User
 {
     private ButtonState previousLeftButtonState = ButtonState.Released;
-    private Position selectedPos = null; // we can delete this? we record position of piece and then.. delete it?
+    //private Position selectedPos = null; // we can delete this? we record position of piece and then.. delete it?
     private HandlingMoves handlingMoves;
-    private Color playerColor = Color.White;
+    private Color userColor = Color.White;
     //With this, we should have faster implementation of clearing board from red tiles
     private IEnumerable<Position> movePositions = null;
     private ChessBoard chessBoard;
+    private IEnumerable<Piece> userPieceList = null;
 
     //We get Input From user
-    public void GetUserInput(KeyboardState keyboardState, MouseState mouseState, ChessBoard chessBoard)
+    public void GetUserInputForGame(KeyboardState keyboardState, MouseState mouseState, ChessBoard chessBoard)
     {
         SelectPiece(mouseState, chessBoard);
         MediaPlayerVolumeChange(keyboardState);
         DebugColorChange(keyboardState);
     }
 
-    public void InitHandlingMoves()
+    public void InitUser(ChessBoard chessBoard)
     {
-        handlingMoves = new HandlingMoves(Color.White, chessBoard);
+
+        handlingMoves = new HandlingMoves(userColor, chessBoard);
+        chessBoard.SetFog(handlingMoves.CurrentPlayersColor);
+        DebugFogSet(chessBoard, handlingMoves.CurrentPlayersColor);
     }
 
     private void DebugColorChange(KeyboardState keyboardState)
     {
         if (Keyboard.GetState().IsKeyDown(Keys.W))
-            playerColor = Color.White;
+            userColor = Color.White;
         if (Keyboard.GetState().IsKeyDown(Keys.B))
-            playerColor = Color.Black;
+            userColor = Color.Black;
     }
 
     //If we want, we can change how load music plays (I think we'll need it relocate)
@@ -54,6 +58,31 @@ public class User
         return new Vector2(position.X, position.Y);
     }
 
+
+    private void DebugFogSet(ChessBoard chessBoard, Color userColor)//i'll change this method to the fast one soon
+    {
+        for (int i = 0; i < GlobalVariables.sizeOfBoard; i++)
+        {
+            for (int j = 0; j < GlobalVariables.sizeOfBoard; j++)
+            {
+                Position clickedPosition = new Position(i, j);
+                Piece selectedPiece = chessBoard[i,j];
+                if (selectedPiece != null && selectedPiece.Color == userColor)
+                {
+                    IEnumerable<Move> moves = handlingMoves.LegalMoves(clickedPosition, chessBoard);
+
+                    if (moves.Any())
+                    {
+                        CacheMoves(moves);
+                        movePositions = null;
+                        movePositions = moves.Select(move => move.ToPos);
+                        chessBoard.ClearFogTiles(handlingMoves.CurrentPlayersColor, movePositions);
+                        handlingMoves.moveCache.Clear();
+                    }
+                }
+            }
+        }
+    }
     /// <summary>
     /// Method to select piece we want to move
     /// We need to refactor this
@@ -69,7 +98,7 @@ public class User
             Vector2 mouseCoordinates = GetMouseCoordinates(mouseState);
             row = (int)mouseCoordinates.Y / GlobalVariables.tileSize;
             column = (int)mouseCoordinates.X / GlobalVariables.tileSize;
-            if (playerColor == Color.Black)
+            if (userColor == Color.Black)
             {
                 row = GlobalVariables.sizeOfBoard - 1 - row;
                 column = GlobalVariables.sizeOfBoard - 1 - column;
@@ -91,7 +120,7 @@ public class User
                     Piece selectedPiece = chessBoard[clickedPosition];
                     if(movePositions != null)
                     {
-                        chessBoard.ForgetPossibleMovesNew(movePositions);
+                        chessBoard.ForgetPossibleMoves(movePositions);
                     }
                     
                     //Console.WriteLine(selectedPiece.Color);
@@ -103,7 +132,9 @@ public class User
                     }
                     else
                     {
+                        chessBoard.SetFog(handlingMoves.CurrentPlayersColor);//test method to set fog for the current player
                         ToPositionSel(clickedPosition, chessBoard);
+                        DebugFogSet(chessBoard, handlingMoves.CurrentPlayersColor);//test method to remove fog for the current player
                     }
                 }
             
@@ -120,7 +151,7 @@ public class User
         //If we have any moves in our list, we cache this moves and execute the move.
         if (moves.Any())
         {
-            selectedPos = pos;
+            //selectedPos = pos;
             CacheMoves(moves);
             movePositions = null;
             movePositions = moves.Select(move => move.ToPos);
@@ -131,7 +162,7 @@ public class User
     private void ToPositionSel(Position pos, ChessBoard chessBoard)
     {
         Console.WriteLine("To");
-        selectedPos = null;
+        //selectedPos = null;
         if(handlingMoves.moveCache.TryGetValue(pos, out Move move))
             HandleMove(move, chessBoard);
         handlingMoves.moveCache.Clear();
@@ -154,7 +185,7 @@ public class User
 
     public Color Color
     {
-        get { return playerColor; }
-        set { playerColor = value; }
+        get { return userColor; }
+        set { userColor = value; }
     }
 }
