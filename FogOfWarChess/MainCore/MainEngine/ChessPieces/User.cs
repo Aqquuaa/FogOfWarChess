@@ -15,8 +15,7 @@ public class User
     private Color userColor = Color.White;
     //With this, we should have faster implementation of clearing board from red tiles
     private IEnumerable<Position> movePositions = null;
-    private ChessBoard chessBoard;
-    private IEnumerable<Piece> userPieceList = null;
+    //private IEnumerable<Piece> userPieceList = null;
 
     //We get Input From user
     public void GetUserInputForGame(KeyboardState keyboardState, MouseState mouseState, ChessBoard chessBoard)
@@ -166,7 +165,6 @@ public class User
         if(handlingMoves.moveCache.TryGetValue(pos, out Move move))
             HandleMove(move, chessBoard);
         handlingMoves.moveCache.Clear();
-        
     }   
 
     private void HandleMove(Move move, ChessBoard chessBoard)

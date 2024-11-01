@@ -81,4 +81,13 @@ public class Pawn : Piece
     {
         return ForwardMoves(from, board).Concat(DiagonalMoves(from, board));
     }
+
+    public override bool EnemiesKingCanBeCaptured(Position from, ChessBoard board)
+    {
+        return DiagonalMoves(from, board).Any(move =>
+            {
+                Piece piece = board[move.ToPos];
+                return piece != null && piece.Type == PieceType.King;
+            });
+    }
 }

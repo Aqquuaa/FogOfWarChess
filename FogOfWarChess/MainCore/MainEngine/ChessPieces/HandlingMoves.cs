@@ -26,7 +26,8 @@ public class HandlingMoves
 
         Console.WriteLine("Legal");
         Piece piece = board[pos];
-        return piece.GetMoves(pos, board);
+        IEnumerable<Move> piecesCanBeMoved = piece.GetMoves(pos, board);
+        return piecesCanBeMoved.Where(move => move.IsMoveSaveForKing(board));
     }
 
     public void MakeMove(Move move, ChessBoard board)

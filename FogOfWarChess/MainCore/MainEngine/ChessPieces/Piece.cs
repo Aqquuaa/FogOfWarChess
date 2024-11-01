@@ -43,6 +43,15 @@ namespace FogOfWarChess.MainCore.MainEngine
             return dirs.SelectMany(dir => MovePositionInDir(from,board,dir));
         }
 
+        public virtual bool EnemiesKingCanBeCaptured(Position from, ChessBoard board) 
+        {
+            return GetMoves(from, board).Any(move =>
+            {
+                Piece piece = board[move.ToPos];
+                return piece != null && piece.Type == PieceType.King;
+            });
+        }
+
         public void LoadTexture(ContentManager content)
         {
             pieceTexture2D = content.Load<Texture2D>($"CoreTextures/{PieceName + Color}");

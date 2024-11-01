@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace FogOfWarChess.MainCore.MainEngine;
 
@@ -73,7 +74,8 @@ public class ChessBoard
         }
     }
 
-    public static ChessBoard SetChessPiecesToTheirPositions()
+    //This part of class is not used. I guess we can delete it
+    /*public static ChessBoard SetChessPiecesToTheirPositions()
     {
         ChessBoard chessBoard = new ChessBoard();
         chessBoard.SetChessPiecesPositions();
@@ -115,7 +117,7 @@ public class ChessBoard
     private bool IsInBounds(int row, int column)
     {
         return row >= 0 && row < boardSize && column >= 0 && column < boardSize;
-    }
+    }*/
 
     // I added this 2 methods so i wouldn't need to change almost all file, but basically it does the same as 2 methods above
     public bool IsInside(Position pos)
@@ -128,6 +130,56 @@ public class ChessBoard
         return this[pos] == null;
     }
 
+    //This method return ALL tiles with pieces
+    public IEnumerable<Position> GetAllPiecesPositions()
+    {
+        for(int i = 0; i < GlobalVariables.sizeOfBoard; i++)
+        {
+            for(int j = 0; j < GlobalVariables.sizeOfBoard; j++)
+            {
+                Position pos = new Position(i, j);
+
+                if (!IsEmpty(pos))
+                    yield return pos;
+            }
+        }
+    }
+
+    //This method return all tiles with pieces of given player(color)
+    public IEnumerable<Position> GetAllPiecePositionsOfColor(Color color)
+    {
+        return GetAllPiecesPositions().Where(pos => this[pos].Color == color);
+    }
+
+    //Small check, if King can be captured
+    public bool IsInCheck(Color color)
+    {
+        return GetAllPiecePositionsOfColor(color.Opponent()).Any(pos =>
+        {
+            Piece piece = this[pos];
+            return piece.EnemiesKingCanBeCaptured(pos, this);
+        });
+    }
+
+    /// <summary>
+    /// This method creates a new copy of chessboard.
+    /// We need this in order to maintain King logic.
+    /// How does it work:
+    /// As we make a move, move will firstly be made in another board.
+    /// Then if King can't be captured after that move, we make it on our main board
+    /// </summary>
+    public ChessBoard Copy()
+    {
+        ChessBoard copy = new ChessBoard();
+
+        foreach(Position pos in GetAllPiecesPositions())
+        {
+            copy[pos] = this[pos].Copy();
+        }
+
+        return copy;
+    }
+
     public void DrawPossibleMoves(IEnumerable<Position> position)
     {
         foreach (var pos in position)
@@ -136,6 +188,7 @@ public class ChessBoard
             tiles[pos.Row, pos.Column].SetPossibleMove();
         }
     }
+
     //debug function to set fog, gonna change soon
     public void SetFog(Color userColor)
     {
@@ -149,7 +202,6 @@ public class ChessBoard
             }
         }
     }
-
 
     /*need fix later
     public void ClearFogTiles(IEnumerable<Position> position)
@@ -192,19 +244,6 @@ public class ChessBoard
             tiles[pos.Row, pos.Column].SetPossibleMoveToFalse();
         }
     }
-    
-
-    //slower but "easier" implementation of method above
-    /*public void ForgetPossibleMoves()
-    {
-        for (var row = 0; row < boardSize; row++)
-        {
-            for (var column = 0; column < boardSize; column++)
-            {
-                tiles[row, column].SetPossibleMoveToFalse();
-            }
-        }
-    }*/
 
     public void LoadTexture(ContentManager content)
     {

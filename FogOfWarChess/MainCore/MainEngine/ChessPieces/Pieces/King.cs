@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FogOfWarChess.MainCore.MainEngine.ChessPieces;
 
@@ -55,5 +56,14 @@ public class King : Piece
         {
             yield return new NormalMove(from, to);
         }
+    }
+
+    public override bool EnemiesKingCanBeCaptured(Position from, ChessBoard board)
+    {
+        return MovePositions(from, board).Any(to =>
+            {
+                Piece piece = board[to];
+                return piece != null && piece.Type == PieceType.King;
+            });
     }
 }
