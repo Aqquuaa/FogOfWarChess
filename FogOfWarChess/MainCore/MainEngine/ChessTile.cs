@@ -8,8 +8,8 @@ namespace FogOfWarChess.MainCore.MainEngine;
 
 public class ChessTile
 {
-    private int row;
-    private int column;
+    private readonly int row;
+    private readonly int column;
     private Piece chessPiece;
     private bool fogOfWar;
     private bool possibleMove;
@@ -73,7 +73,7 @@ public class ChessTile
         }
         else
         {
-            if (possibleMove == false)
+            if (!possibleMove)
             {
                 Texture2D tileTexture = (row + column) % 2 == 0 ? lightTileTexture2D : darkTileTexture2D;
                 spriteBatch.Draw(tileTexture, position, Microsoft.Xna.Framework.Color.White);

@@ -9,11 +9,10 @@ namespace FogOfWarChess;
 
 public class Game1 : Game
 {
-    private GraphicsDeviceManager _graphics;
+    private readonly GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
     private ChessBoard chessBoard;
     private User user;
-    private Song song;
 
     public Game1()
     {
@@ -36,26 +35,32 @@ public class Game1 : Game
     {
         int Width = sizeOfBoard * 40;
         int Height = sizeOfBoard * 40;
-        WindowSizeApply(Width);
+        WindowSizeApply(Width, Height);
     }
 
-    protected void WindowSizeApply(int Width)
+    protected void WindowSizeApply(int Width, int Height)
     {
         _graphics.PreferredBackBufferWidth = Width;
-        _graphics.PreferredBackBufferHeight = Width;
+        _graphics.PreferredBackBufferHeight = Height;
         _graphics.ApplyChanges();
-
     }
 
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
+        
+        LoadMusic();
+        chessBoard.LoadTexture(Content);
+    }
 
-        this.song = Content.Load<Song>("Sounds/Music/BackgroundMusic");
+    private void LoadMusic()
+    {
+        Song song;
+
+        song = Content.Load<Song>("Sounds/Music/BackgroundMusic");
         MediaPlayer.Play(song);
         MediaPlayer.Volume = 0.5f;
         MediaPlayer.IsRepeating = true;
-        chessBoard.LoadTexture(Content);
     }
 
     protected override void Update(GameTime gameTime)

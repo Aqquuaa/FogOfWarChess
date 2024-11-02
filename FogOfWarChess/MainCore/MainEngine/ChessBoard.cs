@@ -196,7 +196,7 @@ public class ChessBoard
         {
             for (var column = 0; column < boardSize; column++)
             {
-                Position pos = new Position(row, column);
+                //Position pos = new Position(row, column); // Not needed
 
                 tiles[row, column].SetFog();
             }

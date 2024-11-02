@@ -3,7 +3,6 @@ namespace FogOfWarChess.MainCore.MainEngine
 {
     public class Direction
     {
-        //
         public readonly static Direction North = new Direction(-1, 0);
         public readonly static Direction South = new Direction(1, 0);
         public readonly static Direction East = new Direction(0, 1);
