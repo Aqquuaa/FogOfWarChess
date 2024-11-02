@@ -89,14 +89,16 @@ public class User
     private void SelectPiece(MouseState mouseState, ChessBoard chessBoard)
     {
         int column, row;
+        Vector2 mouseCoordinates;
+
         //Function works only after user releases left button
         if (previousLeftButtonState == ButtonState.Pressed && mouseState.LeftButton == ButtonState.Released)
         {
-
             //Row - y, Column - x
-            Vector2 mouseCoordinates = GetMouseCoordinates(mouseState);
+            mouseCoordinates = GetMouseCoordinates(mouseState);
             row = (int)mouseCoordinates.Y / GlobalVariables.tileSize;
             column = (int)mouseCoordinates.X / GlobalVariables.tileSize;
+
             if (userColor == Color.Black)
             {
                 row = GlobalVariables.sizeOfBoard - 1 - row;
@@ -110,33 +112,25 @@ public class User
             //chessBoard.ForgetPossibleMoves();
 
             //Check if mouse is inside of game window. Probably inside of monoGame there is easier method
-            if (mouseCoordinates.X > 0 && mouseCoordinates.X < GlobalVariables.sizeOfBoard * GlobalVariables.tileSize &&
-                mouseCoordinates.Y > 0 && mouseCoordinates.Y < GlobalVariables.sizeOfBoard * GlobalVariables.tileSize)
+            if (IsInsideOfGame(mouseCoordinates) && column <= GlobalVariables.sizeOfBoard && row <= GlobalVariables.sizeOfBoard)
             {
-                if (column <= GlobalVariables.sizeOfBoard && row <= GlobalVariables.sizeOfBoard)
+                Position clickedPosition = new Position(row, column);
+                Piece selectedPiece = chessBoard[clickedPosition];
+                if (movePositions != null)
                 {
-                    Position clickedPosition = new Position(row, column);
-                    Piece selectedPiece = chessBoard[clickedPosition];
-                    if(movePositions != null)
-                    {
-                        chessBoard.ForgetPossibleMoves(movePositions);
-                    }
-                    
-                    //Console.WriteLine(selectedPiece.Color);
-
-                    if (selectedPiece != null && selectedPiece.Color == handlingMoves.CurrentPlayersColor)
-                    {
-                        Console.WriteLine(selectedPiece);
-                        FromPositionSel(clickedPosition, chessBoard);
-                    }
-                    else
-                    {
-                        chessBoard.SetFog(handlingMoves.CurrentPlayersColor);//test method to set fog for the current player
-                        ToPositionSel(clickedPosition, chessBoard);
-                        DebugFogSet(chessBoard, handlingMoves.CurrentPlayersColor);//test method to remove fog for the current player
-                    }
+                    chessBoard.ForgetPossibleMoves(movePositions);
                 }
-            
+
+                if (selectedPiece != null && selectedPiece.Color == handlingMoves.CurrentPlayersColor)
+                {
+                    FromPositionSel(clickedPosition, chessBoard);
+                }
+                else
+                {
+                    chessBoard.SetFog(handlingMoves.CurrentPlayersColor);//test method to set fog for the current player
+                    ToPositionSel(clickedPosition, chessBoard);
+                    DebugFogSet(chessBoard, handlingMoves.CurrentPlayersColor);//test method to remove fog for the current player
+                }
             }
         }
         previousLeftButtonState = mouseState.LeftButton;
@@ -179,6 +173,14 @@ public class User
         {
             handlingMoves.moveCache[move.ToPos] = move;
         }
+    }
+
+    private static bool IsInsideOfGame(Vector2 mouseCoord)
+    {
+        if (mouseCoord.X > 0 && mouseCoord.X < GlobalVariables.sizeOfBoard * GlobalVariables.tileSize &&
+                mouseCoord.Y > 0 && mouseCoord.Y < GlobalVariables.sizeOfBoard * GlobalVariables.tileSize)
+            return true;
+        return false;
     }
 
     public Color Color

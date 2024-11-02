@@ -73,16 +73,21 @@ public class ChessTile
         }
         else
         {
+            Texture2D tileTexture;
+
             if (!possibleMove)
             {
-                Texture2D tileTexture = (row + column) % 2 == 0 ? lightTileTexture2D : darkTileTexture2D;
+                tileTexture = (row + column) % 2 == 0 ? lightTileTexture2D : darkTileTexture2D;
                 spriteBatch.Draw(tileTexture, position, Microsoft.Xna.Framework.Color.White);
             }
             else
             {
-                spriteBatch.Draw(possibleMoveTexture2D, position, Microsoft.Xna.Framework.Color.White);
+                // We can make red tiles transperent. In my opinion, it just might look better(we might change color of possible moves as well, so it would look even better)
+                /*tileTexture = (row + column) % 2 == 0 ? lightTileTexture2D : darkTileTexture2D;
+                spriteBatch.Draw(tileTexture, position, Microsoft.Xna.Framework.Color.White);*/
+                spriteBatch.Draw(possibleMoveTexture2D, position, Microsoft.Xna.Framework.Color.White/* * 0.5f*/);
             }
-
+            
             if (chessPiece != null)
             {
                 chessPiece.Draw(spriteBatch, position);

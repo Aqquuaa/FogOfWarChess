@@ -10,7 +10,6 @@ public class Pawn : Piece
     public override PieceType Type => PieceType.Pawn;
     public override Color Color { get; }
     private readonly Direction forward;
-    //private int row, column;
 
     public Pawn(Color color)
     {
