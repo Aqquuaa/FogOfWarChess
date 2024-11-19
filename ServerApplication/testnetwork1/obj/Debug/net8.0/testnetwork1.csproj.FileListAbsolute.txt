@@ -1,0 +1,14 @@
+C:\Users\Vitaliy\source\repos\testnetwork1\testnetwork1\bin\Debug\net8.0\testnetwork1.exe
+C:\Users\Vitaliy\source\repos\testnetwork1\testnetwork1\bin\Debug\net8.0\testnetwork1.deps.json
+C:\Users\Vitaliy\source\repos\testnetwork1\testnetwork1\bin\Debug\net8.0\testnetwork1.runtimeconfig.json
+C:\Users\Vitaliy\source\repos\testnetwork1\testnetwork1\bin\Debug\net8.0\testnetwork1.dll
+C:\Users\Vitaliy\source\repos\testnetwork1\testnetwork1\bin\Debug\net8.0\testnetwork1.pdb
+C:\Users\Vitaliy\source\repos\testnetwork1\testnetwork1\obj\Debug\net8.0\testnetwork1.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Vitaliy\source\repos\testnetwork1\testnetwork1\obj\Debug\net8.0\testnetwork1.AssemblyInfoInputs.cache
+C:\Users\Vitaliy\source\repos\testnetwork1\testnetwork1\obj\Debug\net8.0\testnetwork1.AssemblyInfo.cs
+C:\Users\Vitaliy\source\repos\testnetwork1\testnetwork1\obj\Debug\net8.0\testnetwork1.csproj.CoreCompileInputs.cache
+C:\Users\Vitaliy\source\repos\testnetwork1\testnetwork1\obj\Debug\net8.0\testnetwork1.dll
+C:\Users\Vitaliy\source\repos\testnetwork1\testnetwork1\obj\Debug\net8.0\refint\testnetwork1.dll
+C:\Users\Vitaliy\source\repos\testnetwork1\testnetwork1\obj\Debug\net8.0\testnetwork1.pdb
+C:\Users\Vitaliy\source\repos\testnetwork1\testnetwork1\obj\Debug\net8.0\testnetwork1.genruntimeconfig.cache
+C:\Users\Vitaliy\source\repos\testnetwork1\testnetwork1\obj\Debug\net8.0\ref\testnetwork1.dll
