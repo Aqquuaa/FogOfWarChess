@@ -106,14 +106,14 @@ public class ChessBoard
     /// <summary>
     /// Method to set some piece to some tile
     /// </summary>
-
+    
     public static void MovePiece(ChessTile startTile, ChessTile finishTile)
     {
         var chessPiece = startTile.GetPiece();
         finishTile.SetPiece(chessPiece);
         startTile.SetPiece(null);
     }
-
+    
     private bool IsInBounds(int row, int column)
     {
         return row >= 0 && row < boardSize && column >= 0 && column < boardSize;
@@ -214,7 +214,7 @@ public class ChessBoard
     }
     */
 
-    public void ClearFogTiles(Color userColor, IEnumerable<Position> visiblePositions)
+    public void ClearFog(Color userColor, IEnumerable<Position> visiblePositions)
     {
         for (var row = 0; row < boardSize; row++)
         {
@@ -244,7 +244,10 @@ public class ChessBoard
             tiles[pos.Row, pos.Column].SetPossibleMoveToFalse();
         }
     }
-
+    public void ApplyMove(NormalMove move)
+    {
+        move.Execute(this);
+    }
     public void LoadTexture(ContentManager content)
     {
         // Load the textures for each tile

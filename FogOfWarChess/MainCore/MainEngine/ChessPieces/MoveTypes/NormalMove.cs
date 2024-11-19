@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 namespace FogOfWarChess.MainCore.MainEngine
 {
     public class NormalMove : Move
@@ -15,9 +17,13 @@ namespace FogOfWarChess.MainCore.MainEngine
         public override void Execute(ChessBoard board)
         {
             Piece piece = board[FromPos];
-            board[ToPos] = piece;
-            board[FromPos] = null;
-            piece.HasMoved = true;
+            if (piece != null)
+            {
+                Debug.WriteLine(piece.PieceName);
+                board[ToPos] = piece;
+                board[FromPos] = null;
+                piece.HasMoved = true;
+            }
         }
     }
 

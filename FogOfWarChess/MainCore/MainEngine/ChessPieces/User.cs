@@ -4,17 +4,22 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework.Media;
 using System;
+using FogOfWarChess.GUI;
+using System.Diagnostics;
 
 namespace FogOfWarChess.MainCore.MainEngine;
 
 public class User
 {
+    public NormalMove SelectedMove { get; set; }
+    public bool HasMove { get; private set; }
     private ButtonState previousLeftButtonState = ButtonState.Released;
     //private Position selectedPos = null; // we can delete this? we record position of piece and then.. delete it?
     private HandlingMoves handlingMoves;
     private Color userColor = Color.White;
     //With this, we should have faster implementation of clearing board from red tiles
     private IEnumerable<Position> movePositions = null;
+    //private CurrentSceneEnum currentScene = currentScene.LoginScreen;
     //private IEnumerable<Piece> userPieceList = null;
 
     //We get Input From user
@@ -25,12 +30,13 @@ public class User
         DebugColorChange(keyboardState);
     }
 
-    public void InitUser(ChessBoard chessBoard)
+    public void InitUser(ChessBoard chessBoard, string color)
     {
-
+        userColor = color == "White" ? Color.White : Color.Black;
+        Debug.WriteLine(color);
         handlingMoves = new HandlingMoves(userColor, chessBoard);
-        chessBoard.SetFog(handlingMoves.CurrentPlayersColor);
-        DebugFogSet(chessBoard, handlingMoves.CurrentPlayersColor);
+        chessBoard.SetFog(userColor);
+        DebugFogSet(chessBoard);
     }
 
     private void DebugColorChange(KeyboardState keyboardState)
@@ -43,7 +49,7 @@ public class User
 
     //If we want, we can change how load music plays (I think we'll need it relocate)
     static void MediaPlayerVolumeChange(KeyboardState keyboardState)
-    { 
+    {
         if (Keyboard.GetState().IsKeyDown(Keys.OemPlus))
             MediaPlayer.Volume += +0.02f;
         if (Keyboard.GetState().IsKeyDown(Keys.OemMinus))
@@ -57,8 +63,12 @@ public class User
         return new Vector2(position.X, position.Y);
     }
 
-
-    private void DebugFogSet(ChessBoard chessBoard, Color userColor)//i'll change this method to the fast one soon
+    public void CallFog(ChessBoard chessBoard)
+    {
+        chessBoard.SetFog(userColor);
+        DebugFogSet(chessBoard);
+    }
+    private void DebugFogSet(ChessBoard chessBoard)//i'll change this method to the fast one soon
     {
         for (int i = 0; i < GlobalVariables.sizeOfBoard; i++)
         {
@@ -75,7 +85,7 @@ public class User
                         CacheMoves(moves);
                         movePositions = null;
                         movePositions = moves.Select(move => move.ToPos);
-                        chessBoard.ClearFogTiles(handlingMoves.CurrentPlayersColor, movePositions);
+                        chessBoard.ClearFog(userColor, movePositions);
                         handlingMoves.moveCache.Clear();
                     }
                 }
@@ -121,15 +131,15 @@ public class User
                     chessBoard.ForgetPossibleMoves(movePositions);
                 }
 
-                if (selectedPiece != null && selectedPiece.Color == handlingMoves.CurrentPlayersColor)
+                if (selectedPiece != null && selectedPiece.Color == userColor)
                 {
                     FromPositionSel(clickedPosition, chessBoard);
                 }
                 else
                 {
-                    chessBoard.SetFog(handlingMoves.CurrentPlayersColor);//test method to set fog for the current player
+                    chessBoard.SetFog(userColor);//test method to set fog for the current player
                     ToPositionSel(clickedPosition, chessBoard);
-                    DebugFogSet(chessBoard, handlingMoves.CurrentPlayersColor);//test method to remove fog for the current player
+                    DebugFogSet(chessBoard);//test method to remove fog for the current player
                 }
             }
         }
@@ -157,7 +167,11 @@ public class User
         Console.WriteLine("To");
         //selectedPos = null;
         if(handlingMoves.moveCache.TryGetValue(pos, out Move move))
+        {
+            SelectedMove = (NormalMove)move;
+            HasMove = true;
             HandleMove(move, chessBoard);
+        }
         handlingMoves.moveCache.Clear();
     }   
 
