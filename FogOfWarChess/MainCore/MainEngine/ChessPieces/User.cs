@@ -10,12 +10,9 @@ namespace FogOfWarChess.MainCore.MainEngine;
 public class User
 {
     private ButtonState previousLeftButtonState = ButtonState.Released;
-    //private Position selectedPos = null; // we can delete this? we record position of piece and then.. delete it?
     private HandlingMoves handlingMoves;
     private Color userColor = Color.White;
-    //With this, we should have faster implementation of clearing board from red tiles
     private IEnumerable<Position> movePositions = null;
-    //private IEnumerable<Piece> userPieceList = null;
 
     //We get Input From user
     public void GetUserInputForGame(KeyboardState keyboardState, MouseState mouseState, ChessBoard chessBoard)
@@ -68,7 +65,7 @@ public class User
                 Piece selectedPiece = chessBoard[i,j];
                 if (selectedPiece != null && selectedPiece.Color == userColor)
                 {
-                    IEnumerable<Move> moves = handlingMoves.LegalMoves(clickedPosition, chessBoard);
+                    IEnumerable<Move> moves = handlingMoves.LegalMovesForPiece(clickedPosition, chessBoard);
 
                     if (moves.Any())
                     {
@@ -108,9 +105,6 @@ public class User
             Console.WriteLine("MouseCoordinates X.{0} Y.{1}", mouseCoordinates.X, mouseCoordinates.Y);
             Console.WriteLine("ClickedPosition {0} {1}", column, row);
 
-            //We hide possible moves (red tiles) after each mouse click
-            //chessBoard.ForgetPossibleMoves();
-
             //Check if mouse is inside of game window. Probably inside of monoGame there is easier method
             if (IsInsideOfGame(mouseCoordinates) && column <= GlobalVariables.sizeOfBoard && row <= GlobalVariables.sizeOfBoard)
             {
@@ -139,12 +133,11 @@ public class User
     private void FromPositionSel(Position pos, ChessBoard chessBoard) // We call this method, if we have no selected piece
     {   
         //We create a new list of moves, that our piece can make. 
-        IEnumerable<Move> moves = handlingMoves.LegalMoves(pos, chessBoard);
+        IEnumerable<Move> moves = handlingMoves.LegalMovesForPiece(pos, chessBoard);
         Console.WriteLine("From");
         //If we have any moves in our list, we cache this moves and execute the move.
         if (moves.Any())
         {
-            //selectedPos = pos;
             CacheMoves(moves);
             movePositions = null;
             movePositions = moves.Select(move => move.ToPos);
@@ -155,7 +148,6 @@ public class User
     private void ToPositionSel(Position pos, ChessBoard chessBoard)
     {
         Console.WriteLine("To");
-        //selectedPos = null;
         if(handlingMoves.moveCache.TryGetValue(pos, out Move move))
             HandleMove(move, chessBoard);
         handlingMoves.moveCache.Clear();
@@ -178,7 +170,7 @@ public class User
     private static bool IsInsideOfGame(Vector2 mouseCoord)
     {
         if (mouseCoord.X > 0 && mouseCoord.X < GlobalVariables.sizeOfBoard * GlobalVariables.tileSize &&
-                mouseCoord.Y > 0 && mouseCoord.Y < GlobalVariables.sizeOfBoard * GlobalVariables.tileSize)
+            mouseCoord.Y > 0 && mouseCoord.Y < GlobalVariables.sizeOfBoard * GlobalVariables.tileSize)
             return true;
         return false;
     }

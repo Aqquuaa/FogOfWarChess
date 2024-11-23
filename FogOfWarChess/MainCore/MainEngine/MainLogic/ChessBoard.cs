@@ -74,52 +74,6 @@ public class ChessBoard
         }
     }
 
-    //This part of class is not used. I guess we can delete it
-    /*public static ChessBoard SetChessPiecesToTheirPositions()
-    {
-        ChessBoard chessBoard = new ChessBoard();
-        chessBoard.SetChessPiecesPositions();
-        return chessBoard;
-    }
-    public bool IsTileEmpty(int row, int column)
-    {
-        return IsInBounds(row, column) && tiles[row, column].GetPiece() == null;
-    }
-
-    public bool IsEnemyPiece(int row, int column, Color pieceColor)
-    {
-        if (!IsInBounds(row, column)) return false;
-
-        var piece = tiles[row, column].GetPiece();
-        return piece != null && piece.Color != pieceColor;
-    }
-
-    public ChessTile GetTile(int row, int column)
-    {
-        if (IsInBounds(row, column))
-        {
-            return tiles[row, column];
-        }
-        return null;
-    }
-
-    /// <summary>
-    /// Method to set some piece to some tile
-    /// </summary>
-
-    public static void MovePiece(ChessTile startTile, ChessTile finishTile)
-    {
-        var chessPiece = startTile.GetPiece();
-        finishTile.SetPiece(chessPiece);
-        startTile.SetPiece(null);
-    }
-
-    private bool IsInBounds(int row, int column)
-    {
-        return row >= 0 && row < boardSize && column >= 0 && column < boardSize;
-    }*/
-
-    // I added this 2 methods so i wouldn't need to change almost all file, but basically it does the same as 2 methods above
     public bool IsInside(Position pos)
     {
         return pos.Row >= 0 && pos.Row < boardSize && pos.Column >= 0 && pos.Column < boardSize;

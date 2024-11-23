@@ -8,6 +8,7 @@ public class HandlingMoves
 {
     public ChessBoard Board { get; }
     public Color CurrentPlayersColor { get; private set; }
+    public Result Result { get; private set; } = null; 
     public readonly Dictionary<Position, Move> moveCache = new Dictionary<Position, Move>();
 
     public HandlingMoves(Color color, ChessBoard board)
@@ -16,7 +17,7 @@ public class HandlingMoves
         Board = board;
     }
 
-    public IEnumerable<Move> LegalMoves(Position pos, ChessBoard board)
+    public IEnumerable<Move> LegalMovesForPiece(Position pos, ChessBoard board)
     {
         if (board.IsEmpty(pos)|| board[pos].Color != CurrentPlayersColor)
         {
@@ -35,5 +36,34 @@ public class HandlingMoves
         
         move.Execute(board);
         CurrentPlayersColor = CurrentPlayersColor.Opponent();
+        CheckForGameover();
+    }
+
+    public IEnumerable<Move> AllLegalMovesForPlayer(Color color)
+    {
+        IEnumerable<Move> moveCandidates = Board.GetAllPiecePositionsOfColor(color).SelectMany(pos =>
+        {
+            Piece piece = Board[pos];
+            return piece.GetMoves(pos, Board);
+        });
+
+        return moveCandidates.Where(move => move.IsMoveSaveForKing(Board));
+    }
+
+    private void CheckForGameover()
+    {
+        if(!AllLegalMovesForPlayer(CurrentPlayersColor).Any())
+        {
+            if(Board.IsInCheck(CurrentPlayersColor))
+            {
+                Result = Result.Win(CurrentPlayersColor.Opponent());
+            }
+            else
+            {
+                Result = Result.Draw(EndReason.Checkmate);
+            }
+        }
+
+        Console.WriteLine("Our result of the game is {0}", Result);
     }
 }
