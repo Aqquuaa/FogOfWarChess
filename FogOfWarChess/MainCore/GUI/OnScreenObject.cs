@@ -142,16 +142,16 @@ namespace FogOfWarChess.GUI
                     {
                         if (key == Keys.Back && InputText.Length > 0)
                         {
-                            InputText = InputText[..^1]; 
+                            InputText = InputText[..^1];
                         }
                         else if (key >= Keys.D0 && key <= Keys.D9)
                         {
                             InputText += (key - Keys.D0).ToString();
                         }
-                        else if (key != Keys.Back && key != Keys.LeftShift && key != Keys.Space && key != Keys.CapsLock && key != Keys.Enter && key != Keys.OemPeriod)
+                        /*else if (key != Keys.Back && key != Keys.LeftShift && key != Keys.Space && key != Keys.CapsLock && key != Keys.Enter && key != Keys.OemPeriod)
                         {
                             InputText += key.ToString(); 
-                        }
+                        }*/
                         else if (key == Keys.OemPeriod)
                         {
                             InputText += '.';

@@ -32,8 +32,8 @@ public abstract class CurrentScene
 
 class Login : CurrentScene
 {
-    private Button loginButton;
-    private Button exitButton;
+    private readonly Button loginButton;
+    private readonly Button exitButton;
     private bool loginButtonClicked = false;
     public bool LoginButtonClicked
     {
@@ -87,8 +87,8 @@ class Login : CurrentScene
 
 class Menu : CurrentScene
 {
-    private Button startButton;
-    private Textbox textbox;
+    private readonly Button startButton;
+    private readonly Textbox textbox;
     private string ipAdress = null;
     //private int port;
     private bool startButtonClicked = false;
@@ -149,9 +149,9 @@ class Menu : CurrentScene
 
 class GameScreen : CurrentScene
 {
-    private ChessBoard chessBoard;
-    private User user;
-    private Checkbox checkBox;
+    private readonly ChessBoard chessBoard;
+    private readonly User user;
+    private readonly Checkbox checkBox;
     private bool checkboxBool = true;
     public bool CheckBoxClicked
     {
