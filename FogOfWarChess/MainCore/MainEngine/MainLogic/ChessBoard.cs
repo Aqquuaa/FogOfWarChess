@@ -36,7 +36,7 @@ public class ChessBoard
         get { return tiles[row, col].GetPiece(); }
         set { tiles[row, col].SetPiece(value); }
     }
-    
+
     public Piece this[Position pos]
     {
         get { return tiles[pos.Row, pos.Column].GetPiece(); }
@@ -87,9 +87,9 @@ public class ChessBoard
     //This method return ALL tiles with pieces
     public IEnumerable<Position> GetAllPiecesPositions()
     {
-        for(int i = 0; i < GlobalVariables.sizeOfBoard; i++)
+        for (int i = 0; i < GlobalVariables.sizeOfBoard; i++)
         {
-            for(int j = 0; j < GlobalVariables.sizeOfBoard; j++)
+            for (int j = 0; j < GlobalVariables.sizeOfBoard; j++)
             {
                 Position pos = new Position(i, j);
 
@@ -126,7 +126,7 @@ public class ChessBoard
     {
         ChessBoard copy = new ChessBoard();
 
-        foreach(Position pos in GetAllPiecesPositions())
+        foreach (Position pos in GetAllPiecesPositions())
         {
             copy[pos] = this[pos].Copy();
         }
@@ -168,7 +168,7 @@ public class ChessBoard
     }
     */
 
-    public void ClearFogTiles(Color userColor, IEnumerable<Position> visiblePositions)
+    public void ClearFog(Color userColor, IEnumerable<Position> visiblePositions)
     {
         for (var row = 0; row < boardSize; row++)
         {
@@ -192,13 +192,16 @@ public class ChessBoard
     //I guess it's faster version of forgetting red tiles. We get list of only legal moves of piece and delete red tiles only on them 
     public void ForgetPossibleMoves(IEnumerable<Position> position)
     {
-        foreach(var pos in position)
+        foreach (var pos in position)
         {
             Console.WriteLine("we forgot: {0}", tiles[pos.Row, pos.Column]);
             tiles[pos.Row, pos.Column].SetPossibleMoveToFalse();
         }
     }
-
+    public void ApplyMove(NormalMove move)
+    {
+        move.Execute(this);
+    }
     public void LoadTexture(ContentManager content)
     {
         // Load the textures for each tile

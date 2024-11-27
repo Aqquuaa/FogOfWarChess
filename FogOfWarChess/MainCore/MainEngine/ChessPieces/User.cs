@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework.Media;
 using System;
+using System.Diagnostics;
 
 namespace FogOfWarChess.MainCore.MainEngine;
 
@@ -11,6 +12,8 @@ public class User
 {
     private ButtonState previousLeftButtonState = ButtonState.Released;
     private HandlingMoves handlingMoves;
+    public NormalMove SelectedMove { get; set; }
+    public bool HasMove { get; private set; }
     private Color userColor = Color.White;
     private IEnumerable<Position> movePositions = null;
 
@@ -22,12 +25,13 @@ public class User
         DebugColorChange(keyboardState);
     }
 
-    public void InitUser(ChessBoard chessBoard)
-    {
-
+    public void InitUser(ChessBoard chessBoard, string color)
+    {   
+        userColor = color == "White" ? Color.White : Color.Black;
+        Debug.WriteLine(color);
         handlingMoves = new HandlingMoves(userColor, chessBoard);
-        chessBoard.SetFog(handlingMoves.CurrentPlayersColor);
-        DebugFogSet(chessBoard, handlingMoves.CurrentPlayersColor);
+        chessBoard.SetFog(userColor);
+        DebugFogSet(chessBoard);
     }
 
     private void DebugColorChange(KeyboardState keyboardState)
@@ -40,7 +44,7 @@ public class User
 
     //If we want, we can change how load music plays (I think we'll need it relocate)
     static void MediaPlayerVolumeChange(KeyboardState keyboardState)
-    { 
+    {
         if (Keyboard.GetState().IsKeyDown(Keys.OemPlus))
             MediaPlayer.Volume += +0.02f;
         if (Keyboard.GetState().IsKeyDown(Keys.OemMinus))
@@ -53,16 +57,20 @@ public class User
         Point position = mouseState.Position;
         return new Vector2(position.X, position.Y);
     }
+    public void CallFog(ChessBoard chessBoard)
+    {
+        chessBoard.SetFog(userColor);
+        DebugFogSet(chessBoard);
+    }
 
-
-    private void DebugFogSet(ChessBoard chessBoard, Color userColor)//i'll change this method to the fast one soon
+    private void DebugFogSet(ChessBoard chessBoard)//i'll change this method to the fast one soon
     {
         for (int i = 0; i < GlobalVariables.sizeOfBoard; i++)
         {
             for (int j = 0; j < GlobalVariables.sizeOfBoard; j++)
             {
                 Position clickedPosition = new Position(i, j);
-                Piece selectedPiece = chessBoard[i,j];
+                Piece selectedPiece = chessBoard[i, j];
                 if (selectedPiece != null && selectedPiece.Color == userColor)
                 {
                     IEnumerable<Move> moves = handlingMoves.LegalMovesForPiece(clickedPosition, chessBoard);
@@ -72,7 +80,7 @@ public class User
                         CacheMoves(moves);
                         movePositions = null;
                         movePositions = moves.Select(move => move.ToPos);
-                        chessBoard.ClearFogTiles(handlingMoves.CurrentPlayersColor, movePositions);
+                        chessBoard.ClearFog(userColor, movePositions);
                         handlingMoves.moveCache.Clear();
                     }
                 }
@@ -87,7 +95,6 @@ public class User
     {
         int column, row;
         Vector2 mouseCoordinates;
-
         //Function works only after user releases left button
         if (previousLeftButtonState == ButtonState.Pressed && mouseState.LeftButton == ButtonState.Released)
         {
@@ -115,23 +122,23 @@ public class User
                     chessBoard.ForgetPossibleMoves(movePositions);
                 }
 
-                if (selectedPiece != null && selectedPiece.Color == handlingMoves.CurrentPlayersColor)
+                if (selectedPiece != null && selectedPiece.Color == userColor)
                 {
                     FromPositionSel(clickedPosition, chessBoard);
                 }
                 else
                 {
-                    chessBoard.SetFog(handlingMoves.CurrentPlayersColor);//test method to set fog for the current player
+                    chessBoard.SetFog(userColor);//test method to set fog for the current player
                     ToPositionSel(clickedPosition, chessBoard);
-                    DebugFogSet(chessBoard, handlingMoves.CurrentPlayersColor);//test method to remove fog for the current player
+                    DebugFogSet(chessBoard);//test method to remove fog for the current player
                 }
             }
         }
         previousLeftButtonState = mouseState.LeftButton;
     }
-    
+
     private void FromPositionSel(Position pos, ChessBoard chessBoard) // We call this method, if we have no selected piece
-    {   
+    {
         //We create a new list of moves, that our piece can make. 
         IEnumerable<Move> moves = handlingMoves.LegalMovesForPiece(pos, chessBoard);
         Console.WriteLine("From");
@@ -148,10 +155,15 @@ public class User
     private void ToPositionSel(Position pos, ChessBoard chessBoard)
     {
         Console.WriteLine("To");
-        if(handlingMoves.moveCache.TryGetValue(pos, out Move move))
+        //selectedPos = null;
+        if (handlingMoves.moveCache.TryGetValue(pos, out Move move))
+        {
+            SelectedMove = (NormalMove)move;
+            HasMove = true;
             HandleMove(move, chessBoard);
+        }
         handlingMoves.moveCache.Clear();
-    }   
+    }
 
     private void HandleMove(Move move, ChessBoard chessBoard)
     {
@@ -161,7 +173,7 @@ public class User
     private void CacheMoves(IEnumerable<Move> moves)
     {
         handlingMoves.moveCache.Clear();
-        foreach(Move move in moves)
+        foreach (Move move in moves)
         {
             handlingMoves.moveCache[move.ToPos] = move;
         }
