@@ -4,22 +4,20 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework.Media;
 using System;
-using FogOfWarChess.GUI;
 using System.Diagnostics;
 
 namespace FogOfWarChess.MainCore.MainEngine;
 
 public class User
 {
-    public NormalMove SelectedMove { get; set; }
-    public bool HasMove { get; private set; }
     private ButtonState previousLeftButtonState = ButtonState.Released;
     //private Position selectedPos = null; // we can delete this? we record position of piece and then.. delete it?
     private HandlingMoves handlingMoves;
+    public NormalMove SelectedMove { get; set; }
+    public bool HasMove { get; private set; }
     private Color userColor = Color.White;
     //With this, we should have faster implementation of clearing board from red tiles
     private IEnumerable<Position> movePositions = null;
-    //private CurrentSceneEnum currentScene = currentScene.LoginScreen;
     //private IEnumerable<Piece> userPieceList = null;
 
     //We get Input From user
@@ -31,7 +29,7 @@ public class User
     }
 
     public void InitUser(ChessBoard chessBoard, string color)
-    {
+    {   
         userColor = color == "White" ? Color.White : Color.Black;
         Debug.WriteLine(color);
         handlingMoves = new HandlingMoves(userColor, chessBoard);
@@ -62,12 +60,12 @@ public class User
         Point position = mouseState.Position;
         return new Vector2(position.X, position.Y);
     }
-
     public void CallFog(ChessBoard chessBoard)
     {
         chessBoard.SetFog(userColor);
         DebugFogSet(chessBoard);
     }
+
     private void DebugFogSet(ChessBoard chessBoard)//i'll change this method to the fast one soon
     {
         for (int i = 0; i < GlobalVariables.sizeOfBoard; i++)
@@ -75,7 +73,7 @@ public class User
             for (int j = 0; j < GlobalVariables.sizeOfBoard; j++)
             {
                 Position clickedPosition = new Position(i, j);
-                Piece selectedPiece = chessBoard[i,j];
+                Piece selectedPiece = chessBoard[i, j];
                 if (selectedPiece != null && selectedPiece.Color == userColor)
                 {
                     IEnumerable<Move> moves = handlingMoves.LegalMoves(clickedPosition, chessBoard);
@@ -100,7 +98,6 @@ public class User
     {
         int column, row;
         Vector2 mouseCoordinates;
-
         //Function works only after user releases left button
         if (previousLeftButtonState == ButtonState.Pressed && mouseState.LeftButton == ButtonState.Released)
         {
@@ -145,9 +142,9 @@ public class User
         }
         previousLeftButtonState = mouseState.LeftButton;
     }
-    
+
     private void FromPositionSel(Position pos, ChessBoard chessBoard) // We call this method, if we have no selected piece
-    {   
+    {
         //We create a new list of moves, that our piece can make. 
         IEnumerable<Move> moves = handlingMoves.LegalMoves(pos, chessBoard);
         Console.WriteLine("From");
@@ -166,14 +163,14 @@ public class User
     {
         Console.WriteLine("To");
         //selectedPos = null;
-        if(handlingMoves.moveCache.TryGetValue(pos, out Move move))
+        if (handlingMoves.moveCache.TryGetValue(pos, out Move move))
         {
             SelectedMove = (NormalMove)move;
             HasMove = true;
             HandleMove(move, chessBoard);
         }
         handlingMoves.moveCache.Clear();
-    }   
+    }
 
     private void HandleMove(Move move, ChessBoard chessBoard)
     {
@@ -183,7 +180,7 @@ public class User
     private void CacheMoves(IEnumerable<Move> moves)
     {
         handlingMoves.moveCache.Clear();
-        foreach(Move move in moves)
+        foreach (Move move in moves)
         {
             handlingMoves.moveCache[move.ToPos] = move;
         }

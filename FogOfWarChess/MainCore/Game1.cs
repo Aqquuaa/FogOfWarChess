@@ -5,8 +5,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using System.Diagnostics;
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Color = Microsoft.Xna.Framework.Color;
 
@@ -18,9 +18,14 @@ public class Game1 : Game
     private SpriteBatch _spriteBatch;
     private ChessBoard chessBoard;
     private User user;
-    private LoginScreen loginScreen;
-    private CurrentScene currentSceneManager;
+    private CurrentScene _currentScene;
+    private Login loginScene;
+    private Menu menuScene;
+    private GameScreen gameScene;
+    private SpriteFont font;
+    private CurrentSceneEnum currentSceneEnum = CurrentSceneEnum.loginScreen;
     private ClientConnection clientConnection;
+    private string userColor;
     private bool isMyTurn = false;
     private bool isConnecting = true;
     private bool connectionSuccessful = false;
@@ -37,39 +42,44 @@ public class Game1 : Game
     {
         chessBoard = new ChessBoard();
         user = new User();
-
-        WindowSizeFind(chessBoard.boardSize);
-        //currentSceneManager = new CurrentScene(CurrentSceneEnum.LoginScreen);
-        loginScreen = new LoginScreen();
-
         clientConnection = new ClientConnection(OnMoveReceived);
 
-        // Start connection attempt in a background task
-        connectionTask = Task.Run(() =>
-        {
-            try
-            {
-                isMyTurn = clientConnection.InitConnect("127.0.0.1", 11111);
-                string userColor = ClientConnection.UserColor;
-                connectionSuccessful = true;
-                user.InitUser(chessBoard, userColor);
-                Debug.WriteLine("Connected");
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine($"Connection failed: {e.Message}");
-                connectionSuccessful = false;
-            }
-            finally
-            {
-                isConnecting = false;
-            }
-        });
 
+        WindowSizeFind(chessBoard.boardSize);
+        InitScreens();
         base.Initialize();
     }
 
+    protected void InitScreens()
+    {
+        loginScene = new Login(GraphicsDevice);
+        menuScene = new Menu(GraphicsDevice);
+        gameScene = new GameScreen(GraphicsDevice, chessBoard, user);
+        _currentScene = loginScene;
+    }
 
+    private void ChangeScreen(CurrentSceneEnum sceneChange)
+    {
+        switch (sceneChange)
+        {
+            case CurrentSceneEnum.loginScreen:
+                {
+                    break;
+                }
+
+            case CurrentSceneEnum.menuScreen:
+                {
+                    _currentScene = menuScene;
+                    break;
+                }
+            case CurrentSceneEnum.gameScreen:
+                {
+                    _currentScene = gameScene;
+                    break;
+                }
+
+        }
+    }
     protected void WindowSizeFind(int sizeOfBoard)
     {
         int Width = sizeOfBoard * 40;
@@ -79,7 +89,7 @@ public class Game1 : Game
 
     protected void WindowSizeApply(int Width, int Height)
     {
-        _graphics.PreferredBackBufferWidth = Width;
+        _graphics.PreferredBackBufferWidth = Width+35;
         _graphics.PreferredBackBufferHeight = Height;
         _graphics.ApplyChanges();
     }
@@ -87,10 +97,12 @@ public class Game1 : Game
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
-        
+        font = Content.Load<SpriteFont>("Font/myfont");
+        loginScene.Load(Content);
+        menuScene.Load(Content);
+        gameScene.Load(Content);
         LoadMusic();
         chessBoard.LoadTexture(Content);
-        //loginScreen.LoadContent(Content);
     }
 
     private void LoadMusic()
@@ -106,55 +118,119 @@ public class Game1 : Game
     protected override void Update(GameTime gameTime)
     {
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-        {
-            clientConnection.EndConnections();            
             Exit();
+        // TODO: Add your update logic here
+
+        if (_currentScene.SceneChanged())
+        {
+            switch (currentSceneEnum)
+            {
+                case CurrentSceneEnum.loginScreen:
+                    if (loginScene.LoginButtonClicked)
+                    {
+                        currentSceneEnum = CurrentSceneEnum.menuScreen;
+                    }
+                    break;
+
+                case CurrentSceneEnum.menuScreen:
+
+                    if (menuScene.StartButtonClicked())
+                    {
+                        connectionTask = Task.Run(() =>
+                        {
+                            try
+                            {
+                                if (clientConnection.InitConnect(menuScene.IpAdress, 11111))
+                                {
+                                isMyTurn = clientConnection.IsPlayerTurn;
+                                string userColor = ClientConnection.UserColor;
+                                connectionSuccessful = true;
+                                user.InitUser(chessBoard, userColor);
+                                Debug.WriteLine("Connected");
+                                currentSceneEnum = CurrentSceneEnum.gameScreen;
+                                ChangeScreen(currentSceneEnum);
+                                }
+                                else
+                                {
+                                    Debug.WriteLine("Server with such Ip adress is not responding!");
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                Debug.WriteLine($"Connection failed: {e.Message}");
+                                connectionSuccessful = false;
+                            }
+                            finally
+                            {
+                                isConnecting = false;
+                            }
+                        });
+                    }
+                    break;
+
+                case CurrentSceneEnum.gameScreen:
+                    if (gameScene.CheckBoxClicked)
+                    {
+                        MediaPlayer.Volume = 1f;
+                    }
+                    else
+                    {
+                        MediaPlayer.Volume = 0f;
+                    }
+                    break;
+            }
+
+            ChangeScreen(currentSceneEnum);
+        }
+        if (currentSceneEnum == CurrentSceneEnum.gameScreen && isMyTurn)
+        {
+            HandleInput(gameTime);
+        }
+        if (currentSceneEnum == CurrentSceneEnum.gameScreen && connectionSuccessful)
+        {
+
+        }
+        _currentScene.Update(Mouse.GetState());
+
+        if (gameScene.CheckBoxClicked == true)
+        {
+            MediaPlayer.Volume = 1f;
+        }
+        else
+        {
+            MediaPlayer.Volume = 0f;
         }
 
-        // TODO: Add your update logic here
-        /*currentSceneManager.SceneUpdate(loginScreen, gameTime);
-        if (currentSceneManager.CurrentScene == CurrentSceneEnum.LoginScreen)
-        {
-            currentSceneManager.SetScene(CurrentSceneEnum.MainMenuScreen);
-        }*/
-        HandleInput(gameTime);
-        //loginScreen.Update(gameTime);
         base.Update(gameTime);
     }
-
+    private void OnMoveReceived(NormalMove move)
+    {
+        chessBoard.ApplyMove(move);
+        user.CallFog(chessBoard);
+        isMyTurn = true;
+    }
     private void HandleInput(GameTime gameTime)
     {
         if (!isMyTurn) return;
         KeyboardState keyboardState = Keyboard.GetState();
         MouseState mouseState = Mouse.GetState();
         user.GetUserInputForGame(keyboardState, mouseState, chessBoard);
-        if (user.HasMove && user.SelectedMove != null) 
+        if (user.HasMove && user.SelectedMove != null)
         {
             NormalMove move = user.SelectedMove; // Retrieve the selected move
             clientConnection.SendMove(move);    // Send the move to the opponent
             chessBoard.ApplyMove(move);        // Apply the move locally
             isMyTurn = false;                  // Wait for opponent's move
             user.SelectedMove = null;
+            Debug.WriteLine("move");
         }
     }
-    private void OnMoveReceived(NormalMove move)
-    {
-        chessBoard.ApplyMove(move);
-        user.CallFog(chessBoard);
-        isMyTurn = true; // It's now the local player's turn
-    }
-
     protected override void Draw(GameTime gameTime)
     {
-        GraphicsDevice.Clear(Color.CornflowerBlue);
+        GraphicsDevice.Clear(Color.White);
         _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null);
-        //currentSceneManager.SceneDraw(_spriteBatch, loginScreen);
-        if (user.Color == MainCore.MainEngine.Color.White)
-        {
-            chessBoard.Draw(_spriteBatch);
-        }
-        else chessBoard.DrawInverted(_spriteBatch);
-        //loginScreen.Draw(_spriteBatch);
+        _currentScene.Draw(_spriteBatch, font);
+
         _spriteBatch.End();
         // TODO: Add your drawing code here
 

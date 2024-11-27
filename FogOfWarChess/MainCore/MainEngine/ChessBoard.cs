@@ -36,7 +36,7 @@ public class ChessBoard
         get { return tiles[row, col].GetPiece(); }
         set { tiles[row, col].SetPiece(value); }
     }
-    
+
     public Piece this[Position pos]
     {
         get { return tiles[pos.Row, pos.Column].GetPiece(); }
@@ -106,14 +106,14 @@ public class ChessBoard
     /// <summary>
     /// Method to set some piece to some tile
     /// </summary>
-    
+
     public static void MovePiece(ChessTile startTile, ChessTile finishTile)
     {
         var chessPiece = startTile.GetPiece();
         finishTile.SetPiece(chessPiece);
         startTile.SetPiece(null);
     }
-    
+
     private bool IsInBounds(int row, int column)
     {
         return row >= 0 && row < boardSize && column >= 0 && column < boardSize;
@@ -133,9 +133,9 @@ public class ChessBoard
     //This method return ALL tiles with pieces
     public IEnumerable<Position> GetAllPiecesPositions()
     {
-        for(int i = 0; i < GlobalVariables.sizeOfBoard; i++)
+        for (int i = 0; i < GlobalVariables.sizeOfBoard; i++)
         {
-            for(int j = 0; j < GlobalVariables.sizeOfBoard; j++)
+            for (int j = 0; j < GlobalVariables.sizeOfBoard; j++)
             {
                 Position pos = new Position(i, j);
 
@@ -172,7 +172,7 @@ public class ChessBoard
     {
         ChessBoard copy = new ChessBoard();
 
-        foreach(Position pos in GetAllPiecesPositions())
+        foreach (Position pos in GetAllPiecesPositions())
         {
             copy[pos] = this[pos].Copy();
         }
@@ -238,7 +238,7 @@ public class ChessBoard
     //I guess it's faster version of forgetting red tiles. We get list of only legal moves of piece and delete red tiles only on them 
     public void ForgetPossibleMoves(IEnumerable<Position> position)
     {
-        foreach(var pos in position)
+        foreach (var pos in position)
         {
             Console.WriteLine("we forgot: {0}", tiles[pos.Row, pos.Column]);
             tiles[pos.Row, pos.Column].SetPossibleMoveToFalse();

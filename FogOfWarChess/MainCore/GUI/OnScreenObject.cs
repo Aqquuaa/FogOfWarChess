@@ -2,11 +2,15 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
+using System.Diagnostics;
+using System.Linq;
 
 namespace FogOfWarChess.GUI
 {
     abstract class OnScreenObject
     {
+        protected ButtonState previousButtonState;
         protected Vector2 Position { get; set; }
         protected int Width { get; set; }
         protected int Height { get; set; }
@@ -46,18 +50,20 @@ namespace FogOfWarChess.GUI
                 spriteBatch.DrawString(font, Text, textPosition, Color.Black);
             }
         }
-    }
+    }   
 
     class Button : OnScreenObject
     {
         public bool IsClicked { get; private set; }
-
+            
         public Button(Vector2 position, int width, int height, string text, Texture2D texture)
             : base(position, width, height, text, texture) { }
 
         public void Update(MouseState mouseState)
         {
-            if (IsMouseOver(mouseState) && mouseState.LeftButton == ButtonState.Pressed)
+            if (IsMouseOver(mouseState) &&
+                mouseState.LeftButton == ButtonState.Released &&
+                previousButtonState == ButtonState.Pressed)
             {
                 IsClicked = true;
             }
@@ -65,6 +71,8 @@ namespace FogOfWarChess.GUI
             {
                 IsClicked = false;
             }
+
+            previousButtonState = mouseState.LeftButton;
         }
     }
 
@@ -82,21 +90,32 @@ namespace FogOfWarChess.GUI
             IsChecked = false;
         }
 
+        public override void LoadTexture(ContentManager content, string texturePath)
+        {
+            checkedTexture = content.Load<Texture2D>("CoreTextures/CCheckBox");
+            uncheckedTexture = content.Load<Texture2D>("CoreTextures/UCheckBox");
+            Texture = uncheckedTexture;
+        }
+
         public void Update(MouseState mouseState)
         {
-            if (IsMouseOver(mouseState) && mouseState.LeftButton == ButtonState.Pressed)
+            if (IsMouseOver(mouseState) &&
+                mouseState.LeftButton == ButtonState.Released &&
+                previousButtonState == ButtonState.Pressed)
             {
-                IsChecked = !IsChecked;
-                Texture = IsChecked ? checkedTexture : uncheckedTexture;
+                IsChecked = !IsChecked; 
+                Texture = IsChecked ? checkedTexture : uncheckedTexture; 
             }
+
+            previousButtonState = mouseState.LeftButton;
         }
     }
 
-    // Textbox class
     class Textbox : OnScreenObject
     {
         public string InputText { get; private set; } = "";
         private bool isSelected;
+        private Keys[] previousKeys = Array.Empty<Keys>();
 
         public Textbox(Vector2 position, int width, int height, Texture2D texture)
             : base(position, width, height, null, texture) { }
@@ -114,17 +133,34 @@ namespace FogOfWarChess.GUI
 
             if (isSelected)
             {
-                foreach (var key in keyboardState.GetPressedKeys())
+                var currentKeys = keyboardState.GetPressedKeys();
+
+                foreach (var key in currentKeys)
                 {
-                    if (key == Keys.Back && InputText.Length > 0)
+                    Debug.WriteLine(key);
+                    if (!previousKeys.Contains(key))
                     {
-                        InputText = InputText[..^1];
-                    }
-                    else if (key != Keys.Back)
-                    {
-                        InputText += key.ToString();
+                        if (key == Keys.Back && InputText.Length > 0)
+                        {
+                            InputText = InputText[..^1]; 
+                        }
+                        else if (key >= Keys.D0 && key <= Keys.D9)
+                        {
+                            InputText += (key - Keys.D0).ToString();
+                        }
+                        else if (key != Keys.Back && key != Keys.LeftShift && key != Keys.Space && key != Keys.CapsLock && key != Keys.Enter && key != Keys.OemPeriod)
+                        {
+                            InputText += key.ToString(); 
+                        }
+                        else if (key == Keys.OemPeriod)
+                        {
+                            InputText += '.';
+                        }
+
                     }
                 }
+                Debug.WriteLine(InputText);
+                previousKeys = currentKeys;
             }
         }
 

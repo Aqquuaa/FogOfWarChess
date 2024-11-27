@@ -12,6 +12,11 @@ namespace FogOfWarChess.NetEngine
         private Socket sender;
         private Thread receiveThread;
         private Action<NormalMove> onMoveReceived;
+        private bool isPlayerTurn = false;
+        public bool IsPlayerTurn
+        {
+            get { return isPlayerTurn; }
+        }
         public static string UserColor { get; private set; }
         public ClientConnection(Action<NormalMove> onMoveReceivedCallback)
         {
@@ -20,23 +25,45 @@ namespace FogOfWarChess.NetEngine
 
         public bool InitConnect(string serverIP, int port)
         {
-            IPAddress ipAddr = IPAddress.Parse(serverIP);
-            IPEndPoint localEndPoint = new IPEndPoint(ipAddr, port);
+            try
+            {
+                IPAddress ipAddr = IPAddress.Parse(serverIP);
+                IPEndPoint localEndPoint = new IPEndPoint(ipAddr, port);
 
-            sender = new Socket(ipAddr.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-            sender.Connect(localEndPoint);
+                sender = new Socket(ipAddr.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 
-            Debug.WriteLine("Connected to server!");
+                Debug.WriteLine("Attempting to connect to the server...");
+                sender.Connect(localEndPoint);
 
-            UserColor = ReceiveInitialMessage(sender);
-            Debug.WriteLine($"Assigned user color: {UserColor}");
-            
-            receiveThread = new Thread(ReceiveData);
-            receiveThread.Start();
-            if (UserColor == "White")
+                Debug.WriteLine("Connected to server!");
+
+                UserColor = ReceiveInitialMessage(sender);
+
+                Debug.WriteLine($"Assigned user color: {UserColor}");
+
+                receiveThread = new Thread(ReceiveData)
+                {
+                    IsBackground = true
+                };
+                receiveThread.Start();
+                if (UserColor == "White")
+                {
+                    isPlayerTurn = true;
+                }
                 return true;
-            return false;
+            }
+            catch (SocketException se)
+            {
+                Debug.WriteLine($"SocketException: {se.Message}");
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception: {ex.Message}");
+                return false;
+            }
         }
+
 
         public void EndConnections()
         {

@@ -49,6 +49,18 @@
 /processorParam:TextureFormat=Color
 /build:CoreTextures/Button.png
 
+#begin CoreTextures/CCheckBox.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:CoreTextures/CCheckBox.png
+
 #begin CoreTextures/DarkTile.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -216,6 +228,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:CoreTextures/RookWhite.png
+
+#begin CoreTextures/UCheckBox.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:CoreTextures/UCheckBox.png
 
 #begin Font/myfont.spritefont
 /importer:FontDescriptionImporter
