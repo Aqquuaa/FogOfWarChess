@@ -1,10 +1,10 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework.Media;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Xna.Framework.Media;
 using System;
 using System.Diagnostics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework;
 
 namespace FogOfWarChess.MainCore.MainEngine;
 
