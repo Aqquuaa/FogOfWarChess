@@ -113,7 +113,7 @@ namespace FogOfWarChess.GUI
 
     class Textbox : OnScreenObject
     {
-        public string InputText { get; private set; } = "";
+        public string InputText { get; private set; } = "Write Your IP";
         private bool isSelected;
         private Keys[] previousKeys = Array.Empty<Keys>();
 
@@ -125,6 +125,10 @@ namespace FogOfWarChess.GUI
             if (IsMouseOver(mouseState) && mouseState.LeftButton == ButtonState.Pressed)
             {
                 isSelected = true;
+                if (InputText == "Write Your IP")
+                {
+                    InputText = "";
+                }
             }
             else if (mouseState.LeftButton == ButtonState.Pressed)
             {

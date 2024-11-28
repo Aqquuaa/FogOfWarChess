@@ -16,6 +16,8 @@ namespace FogOfWarChess.MainCore.MainEngine
     {
         Normal,
         DoublePawn,
-        PawnPromotion
+        PawnPromotion,
+        CastlingKingSite,
+        CastlingQueenSite,
     }
 }

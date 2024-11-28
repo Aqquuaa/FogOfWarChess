@@ -39,6 +39,7 @@ class Login : CurrentScene
     {
         get { return loginButtonClicked; }
     }
+    
     public Login(GraphicsDevice graphicsDevice)
     {
         int screenWidth = graphicsDevice.Viewport.Width;
