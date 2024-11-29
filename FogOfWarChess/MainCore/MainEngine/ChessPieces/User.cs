@@ -158,6 +158,7 @@ public class User
         //selectedPos = null;
         if (handlingMoves.moveCache.TryGetValue(pos, out Move move))
         {
+            Console.WriteLine(move.GetType());
             SelectedMove = (NormalMove)move;
             HasMove = true;
             HandleMove(move, chessBoard);

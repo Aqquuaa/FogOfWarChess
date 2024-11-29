@@ -33,7 +33,7 @@ public class King : Piece
         return copy;    
     }
 
-    private static bool RookUnmoved(Position pos, ChessBoard board)
+    /*private static bool RookUnmoved(Position pos, ChessBoard board)
     {
         if(board.IsEmpty(pos))
         {
@@ -73,7 +73,7 @@ public class King : Piece
         Position[] positionsBetween = new Position[] {new(from.Row, 1), new(from.Row, 2), new(from.Row, 3)};
 
         return RookUnmoved(rookPos, board) && PositionBetweenEmptyCastling(positionsBetween, board);
-    }
+    }*/
 
     private IEnumerable<Position> MovePositions (Position from, ChessBoard board)
     {
@@ -100,7 +100,7 @@ public class King : Piece
             yield return new NormalMove(from, to);
         }
 
-        if (CanCastleKingSite(from, board))
+        /*if (CanCastleKingSite(from, board))
         {
             yield return new Castling(MoveType.CastlingKingSite, from);
         }
@@ -108,7 +108,7 @@ public class King : Piece
         if (CanCastleQueenSite(from, board))
         {
             yield return new Castling(MoveType.CastlingQueenSite, from);
-        }
+        }*/
     }
 
     public override bool EnemiesKingCanBeCaptured(Position from, ChessBoard board)
@@ -121,7 +121,7 @@ public class King : Piece
     }   
 }
 
-public class Castling : Move
+/*public class Castling : Move
 {
     public override MoveType Type { get; } 
     public override Position FromPos { get; }
@@ -185,4 +185,4 @@ public class Castling : Move
         Console.WriteLine("Castling is safe!");
         return true;
     }
-}
+}*/

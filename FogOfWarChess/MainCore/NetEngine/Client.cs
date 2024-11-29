@@ -95,6 +95,7 @@ namespace FogOfWarChess.NetEngine
             sender.Send(messageSent);
             Debug.WriteLine("Sent move");
         }
+
         private void ReceiveData()
         {
             try
